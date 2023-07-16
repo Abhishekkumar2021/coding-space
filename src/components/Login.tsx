@@ -3,15 +3,57 @@ import { FaGithub } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
 import LockIcon from '@mui/icons-material/Lock';
 import EmailIcon from '@mui/icons-material/Email';
+import useAuth from '../hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import Notification from './Notification';
 
 export const Login = () => {
+    const { 
+        user,
+        setUser,
+        signIn,
+    } = useAuth();
+    const navigate = useNavigate();
+
+    // state variables
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState<any>(null);
+    const [success, setSuccess] = useState<any>(null);
+    const [errorOpen, setErrorOpen] = useState(false);
+    const [successOpen, setSuccessOpen] = useState(false);
+    
+
+    const backgroundImage = 'https://images.unsplash.com/photo-1526894826544-0f81b0a5796d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1174&q=80';
+    const handleSubmit = async (e: any) => {
+        e.preventDefault();
+        try {
+            const userCredential = await signIn(email, password);
+            const user = userCredential.user;
+            if(user) {
+                setUser(user);
+                setSuccessOpen(true);
+                setSuccess('Sign in successful');
+                navigate('/');
+            }
+        }
+        catch (err: any) {
+            setErrorOpen(true);
+            setError(err.message);
+        }
+
+    };
     return (
-        <Box sx={{ width: '100%', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <Stack spacing={3} maxWidth="400px" width="100%" padding={4} component="form" sx={{ boxShadow: 3, borderRadius: 2, backgroundColor: 'white' }}>
-                <Typography variant="h4" component="h1" gutterBottom>
+        <Box sx={{ width: '100%', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }} >
+            {/* Error */}
+            <Notification message={error} type="error" open={errorOpen} setOpen={setErrorOpen} />
+            {/* Success */}
+            <Notification message={success} type="success" open={successOpen} setOpen={setSuccessOpen} />
+            <Stack spacing={3} maxWidth="400px" width="100%" padding={4} component="form" sx={{ boxShadow: 3, borderRadius: 2, background: 'white' }} >
+                <Typography variant="h4" component="h1" gutterBottom  sx={{ fontWeight: 700, textAlign: 'center' }} >
                     Sign in
                 </Typography>
-
                 <TextField
                     margin="normal"
                     required
@@ -28,6 +70,7 @@ export const Login = () => {
                             </InputAdornment>
                         ),
                     }}
+                        
                 />
 
                 <TextField
@@ -37,6 +80,7 @@ export const Login = () => {
                     id="password"
                     label="Password"
                     name="password"
+                    type="password"
                     autoComplete="current-password"
                     variant='outlined'
                     InputProps={{
@@ -47,13 +91,13 @@ export const Login = () => {
                         ),
                     }}
                 />
-                <Button type="submit" fullWidth variant="contained" disableElevation >
+                <Button type="submit" fullWidth variant="contained" disableElevation onClick={handleSubmit} >
                     Sign In
                 </Button>
 
                 <Typography variant="body2" color="text.secondary" align="center">
                     Don't have an account?&nbsp;
-                    <Link href="#" underline="hover">
+                    <Link href="/signup" underline="hover">
                         Sign Up
                     </Link>
                 </Typography>
