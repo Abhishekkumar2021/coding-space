@@ -5,7 +5,7 @@ import LockIcon from '@mui/icons-material/Lock';
 import EmailIcon from '@mui/icons-material/Email';
 import useAuth from '../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Notification from './Notification';
 
 const Login = () => {
@@ -16,9 +16,33 @@ const Login = () => {
     const navigate = useNavigate();
 
     // If user is already logged in, redirect to home page
-    if(user) {
-        navigate('/');
+    useEffect(() => {
+        // If alreay signed in show success message and redirect to home page
+
+        if (user) {
+            // If user is verified, redirect to home page
+            if(user.emailVerified){
+                setSuccess('Logged in successfully as ' + user?.email);
+                setSuccessOpen(true);
+                // Redirect to home page after 1s
+                setTimeout(() => {
+                    navigate('/');
+                }
+                , 1000);
+            }
+            // Else redirect to email verification page
+            else{
+                setSuccess('Please verify your email!');
+                setSuccessOpen(true);
+                // Redirect to home page after 1s
+                setTimeout(() => {
+                    navigate('/verify-email');
+                }
+                , 1000);
+            }
+        }
     }
+    , [user, navigate]);
 
     // state variables
     const [email, setEmail] = useState('');
@@ -28,23 +52,27 @@ const Login = () => {
     const [errorOpen, setErrorOpen] = useState(false);
     const [successOpen, setSuccessOpen] = useState(false);
     
-    const backgroundImage = 'https://images.unsplash.com/photo-1526894826544-0f81b0a5796d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1174&q=80';
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
         try {
             await signIn(email, password);
-            setSuccess('Logged in successfully as ' + user?.email);
-            setSuccessOpen(true);
             resetForm();
-            setTimeout(() => {
-                navigate('/');
-            }
-            , 2000);
         }
         catch (err: any) {
+            if(err.code === 'auth/user-not-found'){
+                setError('No user found with this email');
+            }
+            else if(err.code === 'auth/wrong-password'){
+                setError('Incorrect password');
+            }
+            else if(err.code === 'auth/invalid-email'){
+                setError('Invalid email, please try again');
+            }
+            else{
+                setError(err.message || 'Something went wrong');
+            }
             setErrorOpen(true);
-            setError(err.message);
             resetForm();
         }
 
@@ -64,7 +92,7 @@ const Login = () => {
     };
 
     return (
-        <Box sx={{ width: '100%', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }} >
+        <Box sx={{ width: '100%', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center'}} >
             {/* Error */}
             <Notification message={error} type="error" open={errorOpen} setOpen={setErrorOpen} />
             {/* Success */}

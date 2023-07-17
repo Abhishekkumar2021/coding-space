@@ -1,7 +1,7 @@
 import AuthContext from "../contexts/AuthContext";
 import { useEffect, useState } from "react";
 import {auth, User} from '../config/firebase';
-import { createUserWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, updateProfile} from "firebase/auth";
+import { applyActionCode, createUserWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, updateProfile} from "firebase/auth";
 
 
 const AuthProvider = ({ children }: any) => {
@@ -42,8 +42,7 @@ const AuthProvider = ({ children }: any) => {
         if(!user) return Promise.reject('No user found' as any);
         return updateProfile(user as User, {displayName: name, photoURL: image});
     };
-
-    
+  
     const value = {
         user,
         setUser,

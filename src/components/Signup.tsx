@@ -4,7 +4,7 @@ import { FcGoogle } from 'react-icons/fc';
 import LockIcon from '@mui/icons-material/Lock';
 import EmailIcon from '@mui/icons-material/Email';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import useAuth from '../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 import Notification from './Notification';
@@ -15,12 +15,34 @@ const Signup = () => {
         signUp,
     } = useAuth();
     const navigate = useNavigate();
-    const backgroundImage = 'https://images.unsplash.com/photo-1526894826544-0f81b0a5796d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1174&q=80';
 
     // If user is already logged in, redirect to home page
-    if(user) {
-        navigate('/');
+    useEffect(() => {
+        // If alreay signed in show success message and redirect to home page
+
+        if (user) {
+            // If user is verified, redirect to home page
+            if(user.emailVerified){
+                setSuccessOpen(true);
+                // Redirect to home page after 1s
+                setTimeout(() => {
+                    navigate('/');
+                }
+                , 1000);
+            }
+            // Else redirect to email verification page
+            else{
+                setSuccess('Please verify your email!');
+                setSuccessOpen(true);
+                // Redirect to home page after 1s
+                setTimeout(() => {
+                    navigate('/verify-email');
+                }
+                , 1000);
+            }
+        }
     }
+    , [user, navigate]);
 
     // state variables
     const [email, setEmail] = useState('');
@@ -61,31 +83,29 @@ const Signup = () => {
 
         try{
             // signup
-            await signUp(email, password);
-
-            // success
-            setSuccess('Account created successfully.');
-            setSuccessOpen(true);
-
-            // reset form
-            resetForm();
-
-            // naviagate to home
-            navigate('/');
-            
+            await signUp(email, password);  
         }
-        catch(error: any){
-            setError(error.message || 'Something went wrong');
+        catch(err: any){
+            if(err.code === 'auth/email-already-in-use'){
+                setError('Email already in use');
+            }
+            else if(err.code === 'auth/invalid-email'){
+                setError('Invalid email, please try again');
+            }
+            else if(err.code === 'auth/weak-password'){
+                setError('Password must be at least 6 characters');
+            }
+            else{
+                setError(err.message || 'Something went wrong');
+            }
             setErrorOpen(true);
-
-            // reset form
             resetForm();
         }
 
     };
 
     return (
-        <Box sx={{ width: '100%', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}>
+        <Box sx={{ width: '100%', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             {/* Error */}
             <Notification message={error} type="error" open={errorOpen} setOpen={setErrorOpen} />
             {/* Success */}
