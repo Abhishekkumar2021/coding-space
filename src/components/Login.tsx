@@ -8,13 +8,17 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import Notification from './Notification';
 
-export const Login = () => {
+const Login = () => {
     const { 
         user,
-        setUser,
         signIn,
     } = useAuth();
     const navigate = useNavigate();
+
+    // If user is already logged in, redirect to home page
+    if(user) {
+        navigate('/');
+    }
 
     // state variables
     const [email, setEmail] = useState('');
@@ -24,26 +28,41 @@ export const Login = () => {
     const [errorOpen, setErrorOpen] = useState(false);
     const [successOpen, setSuccessOpen] = useState(false);
     
-
     const backgroundImage = 'https://images.unsplash.com/photo-1526894826544-0f81b0a5796d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1174&q=80';
+
     const handleSubmit = async (e: any) => {
         e.preventDefault();
         try {
-            const userCredential = await signIn(email, password);
-            const user = userCredential.user;
-            if(user) {
-                setUser(user);
-                setSuccessOpen(true);
-                setSuccess('Sign in successful');
+            await signIn(email, password);
+            setSuccess('Logged in successfully as ' + user?.email);
+            setSuccessOpen(true);
+            resetForm();
+            setTimeout(() => {
                 navigate('/');
             }
+            , 2000);
         }
         catch (err: any) {
             setErrorOpen(true);
             setError(err.message);
+            resetForm();
         }
 
     };
+
+    const handleEmail = (e: any) => {
+        setEmail(e.target.value);
+    };
+
+    const handlePassword = (e: any) => {
+        setPassword(e.target.value);
+    };
+
+    const resetForm = () => {
+        setEmail('');
+        setPassword('');
+    };
+
     return (
         <Box sx={{ width: '100%', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }} >
             {/* Error */}
@@ -63,6 +82,8 @@ export const Login = () => {
                     name="email"
                     autoComplete="email"
                     variant='outlined'
+                    value={email}
+                    onChange={handleEmail}
                     InputProps={{
                         startAdornment: (
                             <InputAdornment position="start">
@@ -83,6 +104,8 @@ export const Login = () => {
                     type="password"
                     autoComplete="current-password"
                     variant='outlined'
+                    value={password}
+                    onChange={handlePassword}
                     InputProps={{
                         startAdornment: (
                             <InputAdornment position="start">
@@ -94,6 +117,12 @@ export const Login = () => {
                 <Button type="submit" fullWidth variant="contained" disableElevation onClick={handleSubmit} >
                     Sign In
                 </Button>
+
+                <Typography variant="body2" color="text.secondary" align="center">
+                    <Link href="/forgot-password" underline="hover">
+                        Forgot password?
+                    </Link>
+                </Typography>
 
                 <Typography variant="body2" color="text.secondary" align="center">
                     Don't have an account?&nbsp;
@@ -130,3 +159,5 @@ export const Login = () => {
 
     );
 };
+
+export default Login;

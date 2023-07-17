@@ -1,20 +1,22 @@
 import AuthContext from "../contexts/AuthContext";
 import { useEffect, useState } from "react";
 import {auth, User} from '../config/firebase';
-import { applyActionCode, createUserWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, updateProfile} from "firebase/auth";
+import { createUserWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, updateProfile} from "firebase/auth";
 
 
 const AuthProvider = ({ children }: any) => {
     const [user, setUser] = useState<User | null>(null);
 
+    // On mount, subscribe to auth state change
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged((user) => {
-            if(user) setUser(user);
-            else setUser(null as any);
+            setUser(user);
         });
         return unsubscribe;
-    }, []);
+    }
+    , []);
 
+    // Auth functions
     const signUp = (email: string, password: string) => {
         return createUserWithEmailAndPassword(auth, email, password);
     };
