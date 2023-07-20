@@ -1,7 +1,7 @@
 import AuthContext from "../contexts/AuthContext";
 import { useEffect, useState } from "react";
 import {auth, User} from '../config/firebase';
-import { applyActionCode, createUserWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, updateProfile} from "firebase/auth";
+import { createUserWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, updateProfile, signOut, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, GithubAuthProvider  } from "firebase/auth";
 
 
 const AuthProvider = ({ children }: any) => {
@@ -9,10 +9,10 @@ const AuthProvider = ({ children }: any) => {
 
     // On mount, subscribe to auth state change
     useEffect(() => {
-        const unsubscribe = auth.onAuthStateChanged((user) => {
-            setUser(user);
+        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+            setUser(currentUser);
         });
-        return unsubscribe;
+        return () => unsubscribe(); // Cleanup subscription on unmount
     }
     , []);
 
@@ -25,8 +25,8 @@ const AuthProvider = ({ children }: any) => {
         return signInWithEmailAndPassword(auth, email, password);
     };
     
-    const signOut = () => {
-        return auth.signOut();
+    const logOut = () => {
+        return signOut(auth);
     };
     
     const resetPassword = (email: string) => {
@@ -42,16 +42,28 @@ const AuthProvider = ({ children }: any) => {
         if(!user) return Promise.reject('No user found' as any);
         return updateProfile(user as User, {displayName: name, photoURL: image});
     };
+
+    const googleSignIn = () => {
+        const provider = new GoogleAuthProvider();
+        return signInWithPopup(auth, provider);
+    };
+
+    const githubSignIn = () => {
+        const provider = new GithubAuthProvider();
+        return signInWithPopup(auth, provider);
+    };
   
     const value = {
         user,
         setUser,
         signUp,
         signIn,
-        signOut,
+        logOut,
         resetPassword,
         verifyEmail,
-        updateUser
+        updateUser,
+        googleSignIn,
+        githubSignIn,
     };
     
     return (

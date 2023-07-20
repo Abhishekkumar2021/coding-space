@@ -13,6 +13,8 @@ const Signup = () => {
     const {
         user,
         signUp,
+        googleSignIn,
+        githubSignIn,
     } = useAuth();
     const navigate = useNavigate();
 
@@ -26,7 +28,7 @@ const Signup = () => {
                 setSuccessOpen(true);
                 // Redirect to home page after 1s
                 setTimeout(() => {
-                    navigate('/');
+                    navigate('/home');
                 }
                 , 1000);
             }
@@ -71,6 +73,24 @@ const Signup = () => {
         setPassword('');
         setConfirmPassword('');
     };
+
+    const handleGoogleSignup = async () => {
+        try{
+            await googleSignIn();
+
+            // Redirect to home page after 1s
+            setTimeout(() => {
+                navigate('/home');
+            }
+            , 1000);
+
+        }
+        catch(err: any){
+            setError(err.message || 'Something went wrong');
+            setErrorOpen(true);
+        }
+    };
+            
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
@@ -197,14 +217,14 @@ const Signup = () => {
                         flex: 1, color: 'black', borderColor: 'lightgray', '&:hover': {
                             borderColor: 'gray'
                         },
-                    }} >
+                    }} onClick={handleGoogleSignup}>
                         Google
                     </Button>
                     <Button variant="outlined" startIcon={<FaGithub />} sx={{
                         flex: 1, color: 'black', borderColor: 'lightgray', '&:hover': {
                             borderColor: 'gray'
                         },
-                    }} >
+                    }} onClick={handleGoogleSignup}>
                         GitHub
                     </Button> 
                 </Stack>

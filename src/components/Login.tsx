@@ -26,7 +26,7 @@ const Login = () => {
                 setSuccessOpen(true);
                 // Redirect to home page after 1s
                 setTimeout(() => {
-                    navigate('/');
+                    navigate('/home');
                 }
                 , 1000);
             }

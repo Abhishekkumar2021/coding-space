@@ -5,7 +5,7 @@ import useAuth from '../hooks/useAuth'
 import { useNavigate } from 'react-router-dom'
 
 const Navbar = () => {
-    const { user, signOut } = useAuth();
+    const { user, logOut } = useAuth();
     const navigate = useNavigate();
     const getAvatar = () => {
         if (user.photoURL) {
@@ -45,7 +45,7 @@ const Navbar = () => {
     const handleLogout = async () => {
         // Logout
         handleClose();
-        await signOut();
+        await logOut();
     }
 
     return (
