@@ -1,4 +1,4 @@
-import { Stack, TextField, Button, Box, Typography, Link, InputAdornment } from '@mui/material';
+import { Stack, TextField, Button, Box, Typography, InputAdornment } from '@mui/material';
 import { FaGithub } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
 import LockIcon from '@mui/icons-material/Lock';
@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import useAuth from '../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 import Notification from './Notification';
+import { Link } from 'react-router-dom';
 
 const Signup = () => {
     const {
@@ -17,34 +18,6 @@ const Signup = () => {
         githubSignIn,
     } = useAuth();
     const navigate = useNavigate();
-
-    // If user is already logged in, redirect to home page
-    useEffect(() => {
-        // If alreay signed in show success message and redirect to home page
-
-        if (user) {
-            // If user is verified, redirect to home page
-            if(user.emailVerified){
-                setSuccessOpen(true);
-                // Redirect to home page after 1s
-                setTimeout(() => {
-                    navigate('/home');
-                }
-                , 1000);
-            }
-            // Else redirect to email verification page
-            else{
-                setSuccess('Please verify your email!');
-                setSuccessOpen(true);
-                // Redirect to home page after 1s
-                setTimeout(() => {
-                    navigate('/verify-email');
-                }
-                , 1000);
-            }
-        }
-    }
-    , [user, navigate]);
 
     // state variables
     const [email, setEmail] = useState('');
@@ -77,10 +50,12 @@ const Signup = () => {
     const handleGoogleSignup = async () => {
         try{
             await googleSignIn();
+            setSuccess('Account created successfully');
+            setSuccessOpen(true);
 
             // Redirect to home page after 1s
             setTimeout(() => {
-                navigate('/home');
+                navigate('/');
             }
             , 1000);
 
@@ -104,6 +79,16 @@ const Signup = () => {
         try{
             // signup
             await signUp(email, password);  
+            setSuccess('Account created successfully');
+            setSuccessOpen(true);
+
+            // Redirect to home page after 1s
+            setTimeout(() => {
+                navigate('/');
+            }
+            , 1000);
+
+            resetForm();
         }
         catch(err: any){
             if(err.code === 'auth/email-already-in-use'){
@@ -200,8 +185,8 @@ const Signup = () => {
 
                 <Typography variant="body2" color="text.secondary" align="center">
                     Already have an account?{' '}
-                    <Link href="/login" underline="hover">
-                        Sign in
+                    <Link to="/login" style={{ textDecoration: 'none' }} >
+                        Login
                     </Link>
                 </Typography>
                 <Stack direction="row" spacing={2} justifyContent="center" alignItems="center">

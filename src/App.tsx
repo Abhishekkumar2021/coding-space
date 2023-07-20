@@ -6,7 +6,6 @@ import ForgotPassword from './components/ForgotPassword';
 import Signup from './components/Signup';
 import { Route, Routes } from 'react-router-dom';
 import VerifyEmail from './components/VerifyEmail';
-import Navbar from './components/Navbar';
 import PrivateRoutes from './components/PrivateRoutes';
 import { Box } from '@mui/material';
 import Profile from './components/Profile';
@@ -18,12 +17,11 @@ function App() {
     <Box sx={{ width: '100%', minHeight: '100vh', backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }} >
       <Routes>
         <Route path = "/login" element = {<Login />} />
-        <Route path = "/" element = {<Login />} />
         <Route path = "/signup" element = {<Signup />} />
         <Route path = "/forgot-password" element = {<ForgotPassword />} />
         <Route path = "/verify-email" element = {<VerifyEmail />} />
         <Route element = {<PrivateRoutes/>} >
-          <Route path = "/home" element = {<Home />} />
+          <Route path = "/" element = {<Home />} />
           <Route path = "/profile" element = {<Profile />} />
           <Route path = "/edit-profile" element = {<EditProfile />} />
         </Route>

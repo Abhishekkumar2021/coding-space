@@ -1,12 +1,14 @@
-import { Stack, TextField, Button, Box, Typography, Link, InputAdornment } from '@mui/material';
+import { Stack, TextField, Button, Box, Typography, InputAdornment } from '@mui/material';
 import { FaGithub } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
 import LockIcon from '@mui/icons-material/Lock';
 import EmailIcon from '@mui/icons-material/Email';
 import useAuth from '../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Notification from './Notification';
+import { Link } from 'react-router-dom';
+
 
 const Login = () => {
     const { 
@@ -14,35 +16,6 @@ const Login = () => {
         signIn,
     } = useAuth();
     const navigate = useNavigate();
-
-    // If user is already logged in, redirect to home page
-    useEffect(() => {
-        // If alreay signed in show success message and redirect to home page
-
-        if (user) {
-            // If user is verified, redirect to home page
-            if(user.emailVerified){
-                setSuccess('Logged in successfully as ' + user?.email);
-                setSuccessOpen(true);
-                // Redirect to home page after 1s
-                setTimeout(() => {
-                    navigate('/home');
-                }
-                , 1000);
-            }
-            // Else redirect to email verification page
-            else{
-                setSuccess('Please verify your email!');
-                setSuccessOpen(true);
-                // Redirect to home page after 1s
-                setTimeout(() => {
-                    navigate('/verify-email');
-                }
-                , 1000);
-            }
-        }
-    }
-    , [user, navigate]);
 
     // state variables
     const [email, setEmail] = useState('');
@@ -57,6 +30,15 @@ const Login = () => {
         e.preventDefault();
         try {
             await signIn(email, password);
+            setSuccess('Logged in successfully');
+            setSuccessOpen(true);
+
+            // Redirect to home page after 1s
+            setTimeout(() => {
+                navigate('/');
+            }
+            , 1000);
+
             resetForm();
         }
         catch (err: any) {
@@ -147,15 +129,15 @@ const Login = () => {
                 </Button>
 
                 <Typography variant="body2" color="text.secondary" align="center">
-                    <Link href="/forgot-password" underline="hover">
+                    <Link to="/forgot-password" style={{ textDecoration: 'none' }} >
                         Forgot password?
                     </Link>
                 </Typography>
 
                 <Typography variant="body2" color="text.secondary" align="center">
                     Don't have an account?&nbsp;
-                    <Link href="/signup" underline="hover">
-                        Sign Up
+                    <Link to="/signup" style={{ textDecoration: 'none' }} >
+                        Sign up
                     </Link>
                 </Typography>
                 <Stack direction="row" spacing={2} justifyContent="center" alignItems="center">

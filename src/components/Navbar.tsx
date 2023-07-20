@@ -1,8 +1,9 @@
-import { AppBar, Avatar, Box, Button, IconButton, Link, Menu, MenuItem, Stack, Toolbar, Typography } from '@mui/material'
+import { AppBar, Avatar, Box, Button, IconButton, Menu, MenuItem, Stack, Toolbar, Typography } from '@mui/material'
 import React from 'react'
 import { BiCodeCurly } from 'react-icons/bi'
 import useAuth from '../hooks/useAuth'
 import { useNavigate } from 'react-router-dom'
+import {Link } from 'react-router-dom'
 
 const Navbar = () => {
     const { user, logOut } = useAuth();
@@ -61,7 +62,7 @@ const Navbar = () => {
                 </IconButton>
                 <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                    {/* make link to home */}
-                    <Link href="/" underline="none" color="inherit" >
+                    <Link to="/" style={{ textDecoration: 'none', color: 'white' }}>
                         Coding Space
                     </Link>
                 </Typography>
@@ -84,6 +85,10 @@ const Navbar = () => {
                         onClose={handleClose}
                         MenuListProps={{
                             'aria-labelledby': 'basic-button',
+                        }}
+                        anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'right',
                         }}
                         >
                         <MenuItem onClick={handleProfile}>Profile</MenuItem>
