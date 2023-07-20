@@ -1,9 +1,10 @@
-import { AppBar, Avatar, Box, Button, IconButton, Menu, MenuItem, Stack, Toolbar, Typography } from '@mui/material'
+import { AppBar, Avatar, Box, Button, Icon, IconButton, Menu, MenuItem, Stack, Toolbar, Typography } from '@mui/material'
 import React from 'react'
 import { BiCodeCurly } from 'react-icons/bi'
 import useAuth from '../hooks/useAuth'
 import { useNavigate } from 'react-router-dom'
 import {Link } from 'react-router-dom'
+import { AccountCircle, Logout } from '@mui/icons-material'
 
 const Navbar = () => {
     const { user, logOut } = useAuth();
@@ -91,9 +92,28 @@ const Navbar = () => {
                             horizontal: 'right',
                         }}
                         >
-                        <MenuItem onClick={handleProfile}>Profile</MenuItem>
-                        <MenuItem onClick={handleAccount}>My account</MenuItem>
-                        <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                        <MenuItem onClick={handleProfile}>
+                            {/* Icon */}
+                            <Stack direction="row" alignItems="center" spacing={1} >
+                                <IconButton>
+                                    <Icon>
+                                        <AccountCircle />
+                                    </Icon>
+                                </IconButton>
+                                <Typography variant="body1" >My Profile</Typography>
+                            </Stack>
+                        </MenuItem>
+                        <MenuItem onClick={handleAccount}>
+                            {/* Icon */}
+                            <Stack direction="row" alignItems="center" spacing={1} >
+                                <IconButton>
+                                    <Icon>
+                                        <Logout />
+                                    </Icon>
+                                </IconButton>
+                                <Typography variant="body1" >Logout</Typography>
+                            </Stack>
+                        </MenuItem>
                     </Menu>  
                     {getAvatar()}
                 </Stack>

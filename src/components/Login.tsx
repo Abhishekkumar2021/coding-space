@@ -14,6 +14,8 @@ const Login = () => {
     const { 
         user,
         signIn,
+        googleSignIn,
+        githubSignIn,
     } = useAuth();
     const navigate = useNavigate();
 
@@ -60,6 +62,44 @@ const Login = () => {
 
     };
 
+    const handleGoogleLogin = async () => {
+        try{
+            await googleSignIn();
+            setSuccess('Signed in successfully');
+            setSuccessOpen(true);
+
+            // Redirect to home page after 1s
+            setTimeout(() => {
+                navigate('/');
+            }
+            , 1000);
+
+        }
+        catch(err: any){
+            setError(err.message || 'Something went wrong');
+            setErrorOpen(true);
+        }
+    };
+
+    const handleGithubLogin = async () => {
+        try{
+            await githubSignIn();
+            setSuccess('Signed in successfully');
+            setSuccessOpen(true);
+
+            // Redirect to home page after 1s
+            setTimeout(() => {
+                navigate('/');
+            }
+            , 1000);
+
+        }
+        catch(err: any){
+            setError(err.message || 'Something went wrong');
+            setErrorOpen(true);
+        }
+    };
+
     const handleEmail = (e: any) => {
         setEmail(e.target.value);
     };
@@ -72,6 +112,7 @@ const Login = () => {
         setEmail('');
         setPassword('');
     };
+
 
     return (
         <Box sx={{ width: '100%', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center'}} >
@@ -153,14 +194,18 @@ const Login = () => {
                         flex: 1, color: 'black', borderColor: 'lightgray', '&:hover': {
                             borderColor: 'gray'
                         },
-                    }} >
+                    }} 
+                    onClick={handleGoogleLogin}
+                    >
                         Google
                     </Button>
                     <Button variant="outlined" startIcon={<FaGithub />} sx={{
                         flex: 1, color: 'black', borderColor: 'lightgray', '&:hover': {
                             borderColor: 'gray'
                         },
-                    }} >
+                    }} 
+                    onClick={handleGithubLogin}
+                    >
                         GitHub
                     </Button>
                 </Stack>

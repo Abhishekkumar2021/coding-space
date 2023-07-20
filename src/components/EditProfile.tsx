@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import useAuth from '../hooks/useAuth'
-import { Box, ImageList, ImageListItem, Stack, TextField, Typography } from '@mui/material'
+import { Box, ImageList, ImageListItem, InputAdornment, Stack, TextField, Typography } from '@mui/material'
 import { PermIdentity, Image } from '@mui/icons-material'
 
 const EditProfile = () => {
@@ -33,21 +33,26 @@ const EditProfile = () => {
                 <Typography variant="h4" color="primary.main" >Edit Profile</Typography>
                 {/* Name */}
                 <TextField
-                    id="outlined-basic"
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="name"
                     label="Name"
                     variant="outlined"
-                    fullWidth
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     InputProps={{
                         startAdornment: (
-                            <PermIdentity />
+                            <InputAdornment position="start">
+                                <PermIdentity />
+                            </InputAdornment>
                         ),
                     }}
                 />
                 {/* Image button */}
                 <TextField
-                    id="outlined-basic"
+                    margin="normal"
+                    id="image"
                     label="Image"
                     variant="outlined"
                     fullWidth
@@ -55,7 +60,9 @@ const EditProfile = () => {
                     onChange={handleImage}
                     InputProps={{
                         startAdornment: (
-                            <Image />
+                            <InputAdornment position="start">
+                                <Image />
+                            </InputAdornment>
                         ),
                     }}
                 />

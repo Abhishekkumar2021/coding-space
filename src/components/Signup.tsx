@@ -65,8 +65,26 @@ const Signup = () => {
             setErrorOpen(true);
         }
     };
-            
 
+    const handleGithubSignup = async () => {
+        try{
+            await githubSignIn();
+            setSuccess('Account created successfully');
+            setSuccessOpen(true);
+
+            // Redirect to home page after 1s
+            setTimeout(() => {
+                navigate('/');
+            }
+            , 1000);
+
+        }
+        catch(err: any){
+            setError(err.message || 'Something went wrong');
+            setErrorOpen(true);
+        }
+    };
+            
     const handleSubmit = async (e: any) => {
         e.preventDefault();
         
@@ -209,7 +227,7 @@ const Signup = () => {
                         flex: 1, color: 'black', borderColor: 'lightgray', '&:hover': {
                             borderColor: 'gray'
                         },
-                    }} onClick={handleGoogleSignup}>
+                    }} onClick={handleGithubSignup}>
                         GitHub
                     </Button> 
                 </Stack>
