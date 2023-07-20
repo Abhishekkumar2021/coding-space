@@ -3,7 +3,6 @@ import { FaGithub } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
 import LockIcon from '@mui/icons-material/Lock';
 import EmailIcon from '@mui/icons-material/Email';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { useEffect, useState } from 'react';
 import useAuth from '../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
@@ -18,6 +17,13 @@ const Signup = () => {
         githubSignIn,
     } = useAuth();
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if(user){
+            navigate('/');
+        }
+    }
+    , [user, navigate]);
 
     // state variables
     const [email, setEmail] = useState('');
@@ -53,12 +59,6 @@ const Signup = () => {
             setSuccess('Account created successfully');
             setSuccessOpen(true);
 
-            // Redirect to home page after 1s
-            setTimeout(() => {
-                navigate('/');
-            }
-            , 1000);
-
         }
         catch(err: any){
             setError(err.message || 'Something went wrong');
@@ -71,13 +71,6 @@ const Signup = () => {
             await githubSignIn();
             setSuccess('Account created successfully');
             setSuccessOpen(true);
-
-            // Redirect to home page after 1s
-            setTimeout(() => {
-                navigate('/');
-            }
-            , 1000);
-
         }
         catch(err: any){
             setError(err.message || 'Something went wrong');

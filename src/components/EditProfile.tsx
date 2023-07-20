@@ -1,7 +1,11 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import useAuth from '../hooks/useAuth'
-import { Box, ImageList, ImageListItem, InputAdornment, Stack, TextField, Typography } from '@mui/material'
-import { PermIdentity, Image } from '@mui/icons-material'
+import { Avatar, Box, Button, InputAdornment, LinearProgress, Stack, TextField, Typography } from '@mui/material'
+import { PermIdentity, Image, Save } from '@mui/icons-material'
+import {StorageReference, UploadTask, getDownloadURL, ref, uploadBytesResumable} from 'firebase/storage'
+import { Link, useNavigate } from 'react-router-dom'
+import { storage } from '../config/firebase'
+import Notification from './Notification'
 
 const EditProfile = () => {
     const [name, setName] = useState('')
@@ -11,9 +15,10 @@ const EditProfile = () => {
     const [successOpen, setSuccessOpen] = useState(false)
     const [image, setImage] = useState<any>(null)
     const [loading, setLoading] = useState(false)
-    const { user, updateProfile } = useAuth()
+    const { user, updateUser } = useAuth()
     const [progress, setProgress] = useState(0)
-    const [preview, setPreview] = useState<any>(null)
+    const [preview, setPreview] = useState<any>(user?.photoURL)
+    const navigate = useNavigate()
 
     // Handlers
     const handleName = (e: any) => {
@@ -27,20 +32,83 @@ const EditProfile = () => {
         }
     }
 
+    const handleSubmit = async (e: any) => {
+        e.preventDefault()
+        if( !image && !name){
+            setError('Please enter a name or upload an image')
+            setErrorOpen(true)
+            return
+        }
+
+        if(image){
+            try{
+                setLoading(true)
+                const storageRef: StorageReference = ref(storage, `users/${user?.uid}/profile.jpg`);
+                const uploadTask: UploadTask = uploadBytesResumable(storageRef, image);
+                uploadTask.on('state_changed', (snapshot) => {
+                    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    setProgress(progress)
+                });
+                await uploadTask;
+                const url = await getDownloadURL(storageRef);
+                setLoading(false)
+                await updateUser(name || user?.displayName, url)
+                setSuccess('Profile updated successfully')
+                setSuccessOpen(true)
+
+                // Redirect to home page after 1s
+                setTimeout(() => {
+                    navigate('/');
+                }
+                , 1000);
+                    
+
+            }
+            catch(err: any){
+                setError(err.message || 'Something went wrong')
+                setErrorOpen(true);
+            }
+        }
+        else{
+            try{
+                await updateUser(name, user?.photoURL)
+                setSuccess('Profile updated successfully')
+                setSuccessOpen(true)
+
+                // Redirect to home page after 1s
+                setTimeout(() => {
+                    navigate('/');
+                }
+                , 1000);
+            }
+            catch(err: any){
+                setError(err.message || 'Something went wrong')
+                setErrorOpen(true);
+            }
+        }
+
+    }
+
     return (
         <Box sx={{ width: '100%', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            {/* Error */}
+            <Notification message={error} type="error" open={errorOpen} setOpen={setErrorOpen} />
+            {/* Success */}
+            <Notification message={success} type="success" open={successOpen} setOpen={setSuccessOpen} />
             <Stack spacing={2} maxWidth="400px" width="100%" padding={4} component="form" sx={{ boxShadow: 3, borderRadius: 2, background: 'white' }} >
-                <Typography variant="h4" color="primary.main" >Edit Profile</Typography>
-                {/* Name */}
+                {/* Image */}
+                <Stack spacing={2} direction="row" justifyContent="space-between" alignItems="center" >
+                    <Typography variant="h4" color="primary.main" >Edit Profile</Typography>
+                    <Avatar src={preview} sx={{ width: '100px', height: '100px' }} />
+                </Stack>
                 <TextField
                     margin="normal"
-                    required
                     fullWidth
                     id="name"
                     label="Name"
                     variant="outlined"
                     value={name}
-                    onChange={(e) => setName(e.target.value)}
+                    onChange={handleName}
                     InputProps={{
                         startAdornment: (
                             <InputAdornment position="start">
@@ -66,21 +134,20 @@ const EditProfile = () => {
                         ),
                     }}
                 />
-                
-                {/* Image preview */}
-                {preview && 
-                    <ImageList sx={{ width: 500, height: 450 }} cols={3} rowHeight={164}>
-                        <ImageListItem>
-                            <img
-                                src={preview}
-                                srcSet={preview}
-                                alt="Preview"
-                                loading="lazy"
-                            />
-                        </ImageListItem>
-                    </ImageList>
-                }
-                
+
+                {loading && <LinearProgress variant="determinate" value={progress} />}
+                    
+                {/* Submit button */}
+                <Stack spacing={2} direction="row" justifyContent="space-between" alignItems="center" >
+                    <Button variant="contained" color="primary" disableElevation fullWidth onClick={handleSubmit}  startIcon={<Save />} >
+                        Update
+                    </Button>
+                    <Link to="/" style={{ textDecoration: 'none' }} >
+                        <Button variant="outlined" color="primary" disableElevation fullWidth >
+                            Cancel
+                        </Button>
+                    </Link>
+                </Stack>
             </Stack>
         </Box>            
     )

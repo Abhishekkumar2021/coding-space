@@ -5,7 +5,7 @@ import LockIcon from '@mui/icons-material/Lock';
 import EmailIcon from '@mui/icons-material/Email';
 import useAuth from '../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Notification from './Notification';
 import { Link } from 'react-router-dom';
 
@@ -113,6 +113,13 @@ const Login = () => {
         setPassword('');
     };
 
+    // Redirect to home page if user is already logged in
+    useEffect(() => {
+        if(user){
+            navigate('/');
+        }
+    }
+    , [user, navigate]);
 
     return (
         <Box sx={{ width: '100%', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center'}} >

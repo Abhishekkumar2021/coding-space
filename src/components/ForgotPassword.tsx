@@ -29,7 +29,15 @@ const ForgotPassword = () => {
                 navigate('/login');
             }, 2000);
         } catch (err: any) {
-            setError(err.message);
+            if(err.code === 'auth/too-many-requests'){
+                setError('Too many requests. Please try again later');
+            }
+            else if(err.code === 'auth/sesion-expired'){
+                setError('Session expired. Please login again');
+            }
+            else{
+                setError(err.message || 'Something went wrong');
+            }
             setErrorOpen(true);
         }
     };

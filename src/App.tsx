@@ -12,7 +12,7 @@ import Profile from './components/Profile';
 import EditProfile from './components/EditProfile';
 
 function App() {
-  const backgroundImage = 'https://images.unsplash.com/photo-1526894826544-0f81b0a5796d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1174&q=80';
+  const backgroundImage = 'https://source.unsplash.com/random/1920x1080/?nature,water,sky,space,coding,technology,food,architecture';
   return (
     <Box sx={{ width: '100%', minHeight: '100vh', backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }} >
       <Routes>

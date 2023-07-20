@@ -1,10 +1,12 @@
-import { AppBar, Avatar, Box, Button, Icon, IconButton, Menu, MenuItem, Stack, Toolbar, Typography } from '@mui/material'
+import { AppBar, Avatar, Button, Icon, IconButton, Menu, MenuItem, Stack, Toolbar, Typography } from '@mui/material'
 import React from 'react'
 import { BiCodeCurly } from 'react-icons/bi'
 import useAuth from '../hooks/useAuth'
 import { useNavigate } from 'react-router-dom'
 import {Link } from 'react-router-dom'
 import { AccountCircle, Logout } from '@mui/icons-material'
+import {SiCodeforces, SiLeetcode} from 'react-icons/si'
+import { FaClipboardList } from 'react-icons/fa'
 
 const Navbar = () => {
     const { user, logOut } = useAuth();
@@ -38,16 +40,23 @@ const Navbar = () => {
         navigate('/profile');
     }
 
-    const handleAccount = () => {
-        // Redirect to account page
-        handleClose();
-        navigate('/account');
-    }
 
     const handleLogout = async () => {
         // Logout
         handleClose();
         await logOut();
+    }
+
+    const handleCodeforces = () => {
+        // Redirect to codeforces
+        handleClose();
+        navigate('/codeforces');
+    }
+
+    const handleLeetcode = () => {
+        // Redirect to leetcode
+        handleClose();
+        navigate('/leetcode');
     }
 
     return (
@@ -103,7 +112,40 @@ const Navbar = () => {
                                 <Typography variant="body1" >My Profile</Typography>
                             </Stack>
                         </MenuItem>
-                        <MenuItem onClick={handleAccount}>
+                        <MenuItem onClick={handleCodeforces}>
+                            {/* Icon */}
+                            <Stack direction="row" alignItems="center" spacing={1} >
+                                <IconButton>
+                                    <Icon>
+                                        <SiCodeforces/>
+                                    </Icon>
+                                </IconButton>
+                                <Typography variant="body1" >Codeforces</Typography>
+                            </Stack>
+                        </MenuItem>
+                        <MenuItem onClick={handleLeetcode}>
+                            {/* Icon */}
+                            <Stack direction="row" alignItems="center" spacing={1} >
+                                <IconButton>
+                                    <Icon>
+                                        <SiLeetcode/>
+                                    </Icon>
+                                </IconButton>
+                                <Typography variant="body1" >Leetcode</Typography>
+                            </Stack>
+                        </MenuItem>
+                        <MenuItem onClick={handleLogout}>
+                            {/* Icon */}
+                            <Stack direction="row" alignItems="center" spacing={1} >
+                                <IconButton>
+                                    <Icon>
+                                        <FaClipboardList />
+                                    </Icon>
+                                </IconButton>
+                                <Typography variant="body1" >All problems</Typography>
+                            </Stack>
+                        </MenuItem>
+                        <MenuItem onClick={handleLogout}>
                             {/* Icon */}
                             <Stack direction="row" alignItems="center" spacing={1} >
                                 <IconButton>

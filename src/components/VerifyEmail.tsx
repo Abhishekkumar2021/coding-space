@@ -1,5 +1,5 @@
 import { Box, Button, Stack, Typography } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import { useState } from 'react'
 import useAuth from '../hooks/useAuth';
 import Notification from './Notification';
 import { Link } from 'react-router-dom';
@@ -23,7 +23,15 @@ const VerifyEmail = () => {
             setSuccessOpen(true);
         }
         catch(err: any){
-            setError(err.message || 'Something went wrong');
+            if(err.code === 'auth/too-many-requests'){
+                setError('Too many requests. Please try again later');
+            }
+            else if(err.code === 'auth/sesion-expired'){
+                setError('Session expired. Please login again');
+            }
+            else{
+                setError(err.message || 'Something went wrong');
+            }
             setErrorOpen(true);
         }
     };
@@ -44,7 +52,7 @@ const VerifyEmail = () => {
                     </Button>
                     <Link to="/login" style={{ textDecoration: 'none' }} >
                         <Button variant="outlined" color="primary" disableElevation fullWidth >
-                            Back to Login
+                            Login
                         </Button>
                     </Link>
                 </Stack>

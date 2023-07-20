@@ -22,6 +22,7 @@ type DailyTask = {
 }
 
 type UserData = {
+    id: string;                 // id of the user
     handles: Handle[];          // handles of the user
     problems: Problem[];        // problems of the user
     dailyTasks: DailyTask[];    // daily tasks of the user
