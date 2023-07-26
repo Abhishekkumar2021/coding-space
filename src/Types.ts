@@ -1,13 +1,12 @@
 type Handle = {
-    website: string;            // like codeforces, codechef, etc
+    website: string;            // like codeforces, interviewbit, etc.
     username: string;           // username on that website
     password: string;           // password on that website
 }
 
 type Problem = {
     name: string;               // name of the problem
-    link: string;               // link to the problem
-    platform: string;           // platform of the problem
+    links: string[];            // links of the problem
     difficulty: string;         // difficulty of the problem
     tags: string[];             // tags of the problem
     status: string;             // status of the problem
@@ -21,11 +20,20 @@ type DailyTask = {
     notes: string;              // notes of the task
 }
 
-type UserData = {
-    id: string;                 // id of the user
-    handles: Handle[];          // handles of the user
-    problems: Problem[];        // problems of the user
-    dailyTasks: DailyTask[];    // daily tasks of the user
-}
+export type { Handle, Problem, DailyTask };
 
-export type { Handle, Problem, DailyTask, UserData };
+/*
+The firestore collection document structure for this project is as follows:
+
+users (collection)
+    user (document) // user is the id of the user
+        handles (collection)
+            handle (document)
+        dailyTasks (collection)
+            dailyTask (document)
+                date: string
+                problems (collection)
+                    problem (document)
+        Problems (collection)
+            problem (document)
+*/

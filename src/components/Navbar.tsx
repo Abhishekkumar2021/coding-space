@@ -59,6 +59,12 @@ const Navbar = () => {
         navigate('/leetcode');
     }
 
+    const handleProblems = () => {
+        // Redirect to problems
+        handleClose();
+        navigate('/problems');
+    }
+
     return (
         <AppBar sx={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 1000 }}>
             <Toolbar>
@@ -134,7 +140,7 @@ const Navbar = () => {
                                 <Typography variant="body1" >Leetcode</Typography>
                             </Stack>
                         </MenuItem>
-                        <MenuItem onClick={handleLogout}>
+                        <MenuItem onClick={handleProblems}>
                             {/* Icon */}
                             <Stack direction="row" alignItems="center" spacing={1} >
                                 <IconButton>
