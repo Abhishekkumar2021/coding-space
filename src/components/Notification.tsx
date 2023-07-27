@@ -1,9 +1,4 @@
-import { Alert, Button, Snackbar } from '@mui/material'
-import React, { useState } from 'react'
-
-interface NotificationProps {
-    message: string;
-}
+import { Alert, Snackbar } from '@mui/material'
 
 function Notification({ message, type, open, setOpen }: any) {
     const handleClose = (event: any, reason: string) => {

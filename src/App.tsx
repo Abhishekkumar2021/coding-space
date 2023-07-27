@@ -10,10 +10,15 @@ import { Box } from '@mui/material';
 import Profile from './components/Profile';
 import EditProfile from './components/EditProfile';
 import Problems from './components/Problems';
+import AddProblem from './components/AddProblem';
+import EditProblem from './components/EditProblem';
+import ViewProblem from './components/ViewById';
+import ViewById from './components/ViewById';
+import ViewByTag from './components/ViewByTag';
 
 function App() {
   return (
-    <Box sx={{ width: '100%', minHeight: '100vh', backgroundColor: '#f5f5f5'}} >
+    <Box sx={{ width: '100%', minHeight: '100vh', backgroundColor: '#ffffff' }}>
       <Routes>
         <Route path = "/login" element = {<Login />} />
         <Route path = "/signup" element = {<Signup />} />
@@ -29,6 +34,11 @@ function App() {
           
           {/* Problem related */}
           <Route path = "/problems" element = {<Problems />} />
+          <Route path = "/problems/add" element = {<AddProblem />} />
+          <Route path = "/problems/edit/:id" element = {<EditProblem />} />
+          <Route path = "/problems/:id" element = {<ViewById />} />
+          <Route path = "/problems/tags/:tag" element = {<ViewByTag />} />
+
         </Route>
       </Routes>
     </Box>
