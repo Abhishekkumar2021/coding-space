@@ -12,20 +12,22 @@ import EditProfile from './components/EditProfile';
 import Problems from './components/Problems';
 
 function App() {
-  const backgroundImage = 'https://source.unsplash.com/random/1920x1080/?nature,water,sky,space,coding,technology,architecture';
   return (
-    <Box sx={{ width: '100%', minHeight: '100vh', backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat'}} >
+    <Box sx={{ width: '100%', minHeight: '100vh', backgroundColor: '#f5f5f5'}} >
       <Routes>
         <Route path = "/login" element = {<Login />} />
         <Route path = "/signup" element = {<Signup />} />
         <Route path = "/forgot-password" element = {<ForgotPassword />} />
         <Route path = "/verify-email" element = {<VerifyEmail />} />
         <Route element = {<PrivateRoutes/>} >
+          {/* Home */}
           <Route path = "/" element = {<Home />} />
+
+          {/* Profile related */}
           <Route path = "/profile" element = {<Profile />} />
           <Route path = "/edit-profile" element = {<EditProfile />} />
           
-          {/* Problem routes */}
+          {/* Problem related */}
           <Route path = "/problems" element = {<Problems />} />
         </Route>
       </Routes>
