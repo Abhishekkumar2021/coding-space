@@ -4,7 +4,7 @@ import { tags as Tags, difficulty as Difficulty, status as Status } from '../Add
 import { Add } from '@mui/icons-material'
 import Notification from './Notification'
 import useAuth from '../hooks/useAuth'
-import { addDoc, collection, doc, getDocs, query, setDoc, where } from 'firebase/firestore'
+import { addDoc, collection, doc, getDocs, query, where } from 'firebase/firestore'
 import { db } from '../config/firebase'
 import { useNavigate } from 'react-router-dom'
 import { Editor } from '@monaco-editor/react'
@@ -66,7 +66,11 @@ const AddProblem = () => {
     }
 
     const handleSubmit = async () => {
-        if(links === null || links.length === 0 && description === ''){
+        // Remove comments from markdown
+        const regex = /<!--[\s\S]*?-->/g  // Regex to match comments in markdown 
+        const newDescription = description.replace(regex, '')
+        const newNotes = notes.replace(regex, '')
+        if((links === null || links.length === 0) || newDescription === ''){
             setError('Please provide either description or links');
             setErrorOpen(true);
             return;
@@ -78,9 +82,9 @@ const AddProblem = () => {
                 tags,
                 links,
                 code,
-                notes,
+                notes: newNotes,
                 status,
-                description
+                description: newDescription,
             }
 
             // Add problem to firestore
@@ -136,7 +140,7 @@ const AddProblem = () => {
                 <Editor 
                     height={300}
                     defaultLanguage="markdown"
-                    defaultValue="<!-- Please enter description here in markdown format...  -->"
+                    defaultValue="<!-- Please enter description here in markdown format...-->"
                     value={description}
                     onChange={handleDescription}
                     options={{
@@ -144,7 +148,8 @@ const AddProblem = () => {
                         minimap: {
                             enabled: false
                         },
-                        fontFamily: "'Roboto Mono', monospace"
+                        fontFamily: "'Roboto Mono', monospace",
+                        lineWrapping: 'on'
                     }}
                     className='editor'
                 />

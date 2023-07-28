@@ -120,7 +120,7 @@ const Login = () => {
             navigate(location.state || '/')
         }
     }
-    , [user, navigate]);
+    , [user, navigate, location.state]);
 
     return (
         <Box sx={{ width: '100%', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center'}} >
