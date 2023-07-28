@@ -12,9 +12,7 @@ import EditProfile from './components/EditProfile';
 import Problems from './components/Problems';
 import AddProblem from './components/AddProblem';
 import EditProblem from './components/EditProblem';
-import ViewProblem from './components/ViewById';
 import ViewById from './components/ViewById';
-import ViewByTag from './components/ViewByTag';
 
 function App() {
   return (
@@ -34,10 +32,9 @@ function App() {
           
           {/* Problem related */}
           <Route path = "/problems" element = {<Problems />} />
+          <Route path = "/problems/:id" element = {<ViewById />} />
           <Route path = "/problems/add" element = {<AddProblem />} />
           <Route path = "/problems/edit/:id" element = {<EditProblem />} />
-          <Route path = "/problems/:id" element = {<ViewById />} />
-          <Route path = "/problems/tags/:tag" element = {<ViewByTag />} />
 
         </Route>
       </Routes>

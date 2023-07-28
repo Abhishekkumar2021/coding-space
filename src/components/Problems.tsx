@@ -1,4 +1,4 @@
-import { Autocomplete, Box, Chip, Fab, IconButton, MenuItem, Stack, Table, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography } from '@mui/material'
+import { Autocomplete, Box, Chip, Fab, IconButton, MenuItem, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography } from '@mui/material'
 import { useState, useEffect } from 'react'
 import { tags as Tags, difficulty as Difficulty, status as Status } from '../Additional'
 import { Add, Search } from '@mui/icons-material'
@@ -191,15 +191,18 @@ const Problems = () => {
           <Add />
         </Fab>
       </Tooltip>
-        <TableContainer sx={{ width: '100%' }} >
+        <TableContainer sx={{ width: '100%', padding: 2 }} >
           <Table sx={{ width: '100%' }}>
             <TableHead sx={{backgroundColor: '#f5f5f5'}}>
+              <TableRow>
               <TableCell width={100} align='center'>Status</TableCell>
               <TableCell width={450} align='center'>Title</TableCell>
               <TableCell width={100} align='center'>Difficulty</TableCell>
               <TableCell width={500} align='center'>Tags</TableCell>
               <TableCell width={200} align='center'>URLs</TableCell>
+              </TableRow>
             </TableHead>
+            <TableBody >
             {problems.map((problem, index) => (
               <TableRow key={index}>
                 {
@@ -224,7 +227,7 @@ const Problems = () => {
                 <TableCell>{
                   <Stack direction='row' spacing={1} justifyContent={'center'} paddingLeft={5} width={500} sx={{overflowX: 'auto'}}>
                     {problem.tags.map((tag, index) => (
-                      <Chip key={index} label={tag} />
+                      <Chip key={index} label={tag} onClick={() => setTags([tag])} />
                     ))}
                   </Stack>
                 }</TableCell>
@@ -235,8 +238,9 @@ const Problems = () => {
                     ))}
                   </Stack>
                 </TableCell>
-              </TableRow>
+                </TableRow> 
             ))}
+            </TableBody>
           </Table>
         </TableContainer>
     </Box>

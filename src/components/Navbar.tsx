@@ -66,7 +66,7 @@ const Navbar = () => {
     }
 
     return (
-        <AppBar sx={{ position: 'sticky', top: 0, left: 0, right: 0, zIndex: 1000 }}>
+        <AppBar sx={{ position: 'sticky', top: 0, left: 0, right: 0, zIndex: 1000, backgroundColor: 'white', color:'black' }}>
             <Toolbar>
                 <IconButton
                     size="large"
@@ -78,13 +78,14 @@ const Navbar = () => {
                 </IconButton>
                 <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                    {/* make link to home */}
-                    <Link to="/" style={{ textDecoration: 'none', color: 'white' }}>
+                    <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
                         Coding Space
                     </Link>
                 </Typography>
                 <Stack direction="row" spacing={2}>
                     {/* Open this menu on clicking on avatar */}
                     <Button
+                        variant="outlined"
                         id="basic-button"
                         aria-controls="basic-menu"
                         aria-haspopup="true"

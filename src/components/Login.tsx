@@ -4,7 +4,7 @@ import { FcGoogle } from 'react-icons/fc';
 import LockIcon from '@mui/icons-material/Lock';
 import EmailIcon from '@mui/icons-material/Email';
 import useAuth from '../hooks/useAuth';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Notification from './Notification';
 import { Link } from 'react-router-dom';
@@ -18,6 +18,7 @@ const Login = () => {
         githubSignIn,
     } = useAuth();
     const navigate = useNavigate();
+    const location = useLocation()
 
     // state variables
     const [email, setEmail] = useState('');
@@ -116,7 +117,7 @@ const Login = () => {
     // Redirect to home page if user is already logged in
     useEffect(() => {
         if(user){
-            navigate('/');
+            navigate(location.state || '/')
         }
     }
     , [user, navigate]);
