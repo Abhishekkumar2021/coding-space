@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom';
 
 
 const VerifyEmail = () => {
-    const backgroundImage = 'https://images.unsplash.com/photo-1526894826544-0f81b0a5796d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1174&q=80';
     const [sent, setSent] = useState(false);
     const [error, setError] = useState<any>(null);
     const [success, setSuccess] = useState<any>(null);
@@ -38,7 +37,7 @@ const VerifyEmail = () => {
 
 
     return (
-        <Box sx={{ width: '100%', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }} >
+        <Box sx={{ width: '100%', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }} >
             {/* Error */}
             <Notification message={error} type="error" open={errorOpen} setOpen={setErrorOpen} />
             {/* Success */}
@@ -50,9 +49,9 @@ const VerifyEmail = () => {
                     <Button variant="contained" color="primary" disableElevation fullWidth onClick={handleClick} >
                     {sent ? 'Resend Email' : 'Send Email'}
                     </Button>
-                    <Link to="/login" style={{ textDecoration: 'none' }} >
+                    <Link to="/" style={{ textDecoration: 'none' }} >
                         <Button variant="outlined" color="primary" disableElevation fullWidth >
-                            Login
+                            Home
                         </Button>
                     </Link>
                 </Stack>

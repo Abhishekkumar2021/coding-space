@@ -7,6 +7,7 @@ type Handle = {
 type Problem = {
     id: string;                 // id of the problem
     title: string;              // title of the problem
+    description: string;        // description of the problem
     links: string[];            // links of the problem
     difficulty: string;         // difficulty of the problem
     tags: string[];             // tags of the problem

@@ -7,6 +7,7 @@ import useAuth from '../hooks/useAuth'
 import { addDoc, collection, doc, getDocs, query, setDoc, where } from 'firebase/firestore'
 import { db } from '../config/firebase'
 import { useNavigate } from 'react-router-dom'
+import { Editor } from '@monaco-editor/react'
 
 const AddProblem = () => {
     const [title, setTitle] = useState('')
@@ -15,6 +16,7 @@ const AddProblem = () => {
     const [links, setLinks] = useState<string[]>([])
     const [code, setCode] = useState('')
     const [notes, setNotes] = useState('')
+    const [description, setDescription] = useState('')
     const [status, setStatus] = useState('')
     const [error, setError] = useState<any>(null);
     const [success, setSuccess] = useState<any>(null);
@@ -51,16 +53,24 @@ const AddProblem = () => {
             typeof value === 'string' ? value.split(',') : value,
         )
     }
-
-    const handleCode = (e: any) => {
-        setCode(e.target.value)
+    const handleDescription = (value: any) => {
+        setDescription(value)
     }
 
-    const handleNotes = (e: any) => {
-        setNotes(e.target.value)
+    const handleCode = (value: any) => {
+        setCode(value)
+    }
+
+    const handleNotes = (value: any) => {
+        setNotes(value)
     }
 
     const handleSubmit = async () => {
+        if(links === null || links.length === 0 && description === ''){
+            setError('Please provide either description or links');
+            setErrorOpen(true);
+            return;
+        }
         try {
             const problem = {
                 title,
@@ -70,6 +80,7 @@ const AddProblem = () => {
                 code,
                 notes,
                 status,
+                description
             }
 
             // Add problem to firestore
@@ -119,6 +130,23 @@ const AddProblem = () => {
                     fullWidth
                     onChange={handleTitle}
                     required
+                />
+
+                {/* Description */}
+                <Editor 
+                    height={300}
+                    defaultLanguage="markdown"
+                    defaultValue="<!-- Please enter description here in markdown format...  -->"
+                    value={description}
+                    onChange={handleDescription}
+                    options={{
+                        fontSize: 14,
+                        minimap: {
+                            enabled: false
+                        },
+                        fontFamily: "'Roboto Mono', monospace"
+                    }}
+                    className='editor'
                 />
 
                 {/* Difficulty */}
@@ -181,35 +209,42 @@ const AddProblem = () => {
                     fullWidth
                     onChange={handleLinks}
                     helperText='Enter comma separated links.'  
-                    required
                 />
 
                 {/* Code */}
-                <TextField
-                    id='code'
-                    label='Code'
-                    variant='outlined'
+                <Editor 
+                    height={300}
+                    defaultLanguage="cpp"
+                    defaultValue="// Start coding here..."
                     value={code}
-                    fullWidth
-                    multiline
-                    rows={10}
                     onChange={handleCode}
-                    placeholder='Enter your solution code here...'
+                    options={{
+                        fontSize: 14,
+                        minimap: {
+                            enabled: false
+                        },
+                        fontFamily: "'Roboto Mono', monospace"
+                    }}
+                    className='editor'
                 />
 
                 {/* Notes */}
-                <TextField
-                    id='notes'
-                    label='Notes'
-                    variant='outlined'
+                <Editor 
+                    height={300}
+                    defaultLanguage="markdown"
+                    defaultValue="<!-- Please enter notes here in markdown format...  -->"
                     value={notes}
-                    fullWidth
-                    multiline
-                    rows={10}
                     onChange={handleNotes}
-                    placeholder='Enter your thoughts here...'
-                    helperText='Please enter notes in markdown format.'
+                    options={{
+                        fontSize: 14,
+                        minimap: {
+                            enabled: false
+                        },
+                        fontFamily: "'Roboto Mono', monospace"
+                    }}
+                    className='editor'
                 />
+
                 <Button variant='contained' color='primary' fullWidth startIcon={<Add />} onClick = {handleSubmit}>Add Problem</Button>
 
             </Stack>

@@ -66,7 +66,7 @@ const Navbar = () => {
     }
 
     return (
-        <AppBar sx={{ position: 'sticky', top: 0, left: 0, right: 0, zIndex: 1000, backgroundColor: 'white', color:'black' }}>
+        <AppBar sx={{ position: 'sticky', top: 0, left: 0, right: 0, zIndex: 1000, backgroundColor: 'white', color:'black' }} elevation={1} >
             <Toolbar>
                 <IconButton
                     size="large"
@@ -86,6 +86,7 @@ const Navbar = () => {
                     {/* Open this menu on clicking on avatar */}
                     <Button
                         variant="outlined"
+                        disableElevation
                         id="basic-button"
                         aria-controls="basic-menu"
                         aria-haspopup="true"

@@ -1,7 +1,7 @@
-import { Autocomplete, Box, Chip, Fab, IconButton, MenuItem, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography } from '@mui/material'
+import { Autocomplete, Box, Chip, Fab, IconButton, MenuItem, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip } from '@mui/material'
 import { useState, useEffect } from 'react'
 import { tags as Tags, difficulty as Difficulty, status as Status } from '../Additional'
-import { Add, Search } from '@mui/icons-material'
+import { Add } from '@mui/icons-material'
 import { Problem } from '../Types'
 import useAuth from '../hooks/useAuth'
 import { db } from '../config/firebase'
@@ -61,6 +61,7 @@ const Problems = () => {
           code: data.code,
           notes: data.notes,
           links: data.links,
+          description: data.description,
         })
         options.push(data.title)
       })
@@ -193,7 +194,7 @@ const Problems = () => {
       </Tooltip>
         <TableContainer sx={{ width: '100%', padding: 2 }} >
           <Table sx={{ width: '100%' }}>
-            <TableHead sx={{backgroundColor: '#f5f5f5'}}>
+            <TableHead >
               <TableRow>
               <TableCell width={100} align='center'>Status</TableCell>
               <TableCell width={450} align='center'>Title</TableCell>
