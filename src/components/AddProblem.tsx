@@ -149,7 +149,6 @@ const AddProblem = () => {
                             enabled: false
                         },
                         fontFamily: "'Roboto Mono', monospace",
-                        lineWrapping: 'on'
                     }}
                     className='editor'
                 />

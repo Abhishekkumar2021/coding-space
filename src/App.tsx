@@ -12,6 +12,8 @@ import EditProfile from './components/EditProfile';
 import Problems from './components/Problems';
 import AddProblem from './components/AddProblem';
 import ViewById from './components/ViewById';
+import Compiler from './components/Compiler';
+import Daily from './components/Daily';
 
 function App() {
   return (
@@ -33,6 +35,12 @@ function App() {
           <Route path = "/problems" element = {<Problems />} />
           <Route path = "/problems/:id" element = {<ViewById />} />
           <Route path = "/problems/add" element = {<AddProblem />} />
+
+          {/* Compiler */}
+          <Route path = "/compiler" element = {<Compiler />} />
+
+          {/* Daily task */}
+          <Route path = "/daily" element = {<Daily />} />
 
         </Route>
       </Routes>

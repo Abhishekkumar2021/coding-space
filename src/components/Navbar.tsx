@@ -5,8 +5,9 @@ import useAuth from '../hooks/useAuth'
 import { useNavigate } from 'react-router-dom'
 import {Link } from 'react-router-dom'
 import { AccountCircle, Logout } from '@mui/icons-material'
-import {SiCodeforces, SiLeetcode} from 'react-icons/si'
 import { FaClipboardList } from 'react-icons/fa'
+import { SiCompilerexplorer } from 'react-icons/si'
+import {MdOutlineTaskAlt} from 'react-icons/md'
 
 const Navbar = () => {
     const { user, logOut } = useAuth();
@@ -40,6 +41,12 @@ const Navbar = () => {
         navigate('/profile');
     }
 
+    const handleDaily = () => {
+        // Redirect to daily task page
+        handleClose();
+        navigate('/daily');
+    }
+
 
     const handleLogout = async () => {
         // Logout
@@ -47,22 +54,16 @@ const Navbar = () => {
         await logOut();
     }
 
-    const handleCodeforces = () => {
-        // Redirect to codeforces
-        handleClose();
-        navigate('/codeforces');
-    }
-
-    const handleLeetcode = () => {
-        // Redirect to leetcode
-        handleClose();
-        navigate('/leetcode');
-    }
-
     const handleProblems = () => {
         // Redirect to problems
         handleClose();
         navigate('/problems');
+    }
+
+    const handleCompiler = () => {
+        // Redirect to compiler
+        handleClose();
+        navigate('/compiler');
     }
 
     return (
@@ -85,7 +86,7 @@ const Navbar = () => {
                 <Stack direction="row" spacing={2}>
                     {/* Open this menu on clicking on avatar */}
                     <Button
-                        variant="outlined"
+                        variant="contained"
                         disableElevation
                         id="basic-button"
                         aria-controls="basic-menu"
@@ -109,39 +110,7 @@ const Navbar = () => {
                             horizontal: 'right',
                         }}
                         >
-                        <MenuItem onClick={handleProfile}>
-                            {/* Icon */}
-                            <Stack direction="row" alignItems="center" spacing={1} >
-                                <IconButton>
-                                    <Icon>
-                                        <AccountCircle />
-                                    </Icon>
-                                </IconButton>
-                                <Typography variant="body1" >My Profile</Typography>
-                            </Stack>
-                        </MenuItem>
-                        <MenuItem onClick={handleCodeforces}>
-                            {/* Icon */}
-                            <Stack direction="row" alignItems="center" spacing={1} >
-                                <IconButton>
-                                    <Icon>
-                                        <SiCodeforces/>
-                                    </Icon>
-                                </IconButton>
-                                <Typography variant="body1" >Codeforces</Typography>
-                            </Stack>
-                        </MenuItem>
-                        <MenuItem onClick={handleLeetcode}>
-                            {/* Icon */}
-                            <Stack direction="row" alignItems="center" spacing={1} >
-                                <IconButton>
-                                    <Icon>
-                                        <SiLeetcode/>
-                                    </Icon>
-                                </IconButton>
-                                <Typography variant="body1" >Leetcode</Typography>
-                            </Stack>
-                        </MenuItem>
+                          
                         <MenuItem onClick={handleProblems}>
                             {/* Icon */}
                             <Stack direction="row" alignItems="center" spacing={1} >
@@ -153,6 +122,39 @@ const Navbar = () => {
                                 <Typography variant="body1" >All problems</Typography>
                             </Stack>
                         </MenuItem>
+                        <MenuItem onClick={handleDaily}>
+                            {/* Icon */}
+                            <Stack direction="row" alignItems="center" spacing={1} >
+                                <IconButton>
+                                    <Icon>
+                                        <MdOutlineTaskAlt />
+                                    </Icon>
+                                </IconButton>
+                                <Typography variant="body1" >Daily Task</Typography>
+                            </Stack>
+                        </MenuItem> 
+                        <MenuItem onClick={handleCompiler}>
+                            {/* Icon */}
+                            <Stack direction="row" alignItems="center" spacing={1} >
+                                <IconButton>
+                                    <Icon>
+                                        <SiCompilerexplorer />
+                                    </Icon>
+                                </IconButton>
+                                <Typography variant="body1" >Online Comipler</Typography>
+                            </Stack>
+                        </MenuItem>
+                        <MenuItem onClick={handleProfile}>
+                            {/* Icon */}
+                            <Stack direction="row" alignItems="center" spacing={1} >
+                                <IconButton>
+                                    <Icon>
+                                        <AccountCircle />
+                                    </Icon>
+                                </IconButton>
+                                <Typography variant="body1" >My Profile</Typography>
+                            </Stack>
+                        </MenuItem> 
                         <MenuItem onClick={handleLogout}>
                             {/* Icon */}
                             <Stack direction="row" alignItems="center" spacing={1} >

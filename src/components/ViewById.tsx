@@ -12,7 +12,7 @@ import { tags as Tags, difficulty as Difficulty, status as Status } from '../Add
 import { atomOneDark, atomOneLight } from 'react-syntax-highlighter/dist/esm/styles/hljs'
 import { AiOutlineLink } from 'react-icons/ai'
 import { SiCodingninjas, SiGeeksforgeeks, SiLeetcode } from 'react-icons/si'
-import { Delete, Edit } from '@mui/icons-material'
+import { Add, Delete, Edit, PlusOne } from '@mui/icons-material'
 import { Editor } from '@monaco-editor/react'
 
 const ViewById = () => {
@@ -93,6 +93,14 @@ const ViewById = () => {
   const updateNotes = async () => {
     setOpenNotes(false);
     updateProblem({ notes }, 'Notes')
+  }
+
+  // Add link
+  const [link, setLink] = useState('')
+  const [openLink, setOpenLink] = useState(false);
+  const updateLink = async () => {
+    setOpenLink(false);
+    updateProblem({ links: [...problem.links, link] }, 'Links')
   }
 
   useEffect(() => {
@@ -284,8 +292,34 @@ const ViewById = () => {
                 {problem.links.map((link: any, index: any) => (
                   getIcon(link, index)
                 ))}
+                <IconButton onClick={() => setOpenLink(true)} title='Add link' sx={{ marginLeft: 1 }}>
+                  <Add/>
+                </IconButton>
+                <Dialog open={openLink} onClose={() => setOpenLink(false)} maxWidth='sm' fullWidth>
+                  <DialogTitle>Add link</DialogTitle>
+                  <DialogContent >
+                    <TextField
+                      id='link'
+                      label='Link'
+                      variant='outlined'
+                      value={link}
+                      margin='normal'
+                      fullWidth
+                      onChange={(e) => setLink(e.target.value)}
+                    />
+                  </DialogContent>
+                  <DialogActions >
+                    <Button onClick={() => setOpenLink(false)}>Cancel</Button>
+                    <Button onClick={updateLink}>Add</Button>
+                  </DialogActions>
+                </Dialog>
               </Stack>
             }
+          </Stack>
+          <Stack direction='row' spacing={1} alignItems='center' sx={{ marginTop: 2 }} >
+            {problem.tags.map((tag: any, index: any) => (
+              <Chip key={index} label={tag} />
+            ))}
           </Stack>
           {/* Description */}
           <Stack direction='row' spacing={1} alignItems='center' sx={{ marginTop: 2 }} >

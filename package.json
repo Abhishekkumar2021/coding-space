@@ -17,6 +17,8 @@
     "@types/react-dom": "^18.2.6",
     "@types/react-router-dom": "^5.3.3",
     "@types/react-syntax-highlighter": "^15.5.7",
+    "axios": "^1.4.0",
+    "compile-run": "^2.3.4",
     "firebase": "^10.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
