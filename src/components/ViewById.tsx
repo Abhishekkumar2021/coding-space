@@ -7,12 +7,12 @@ import { db } from '../config/firebase'
 import Notification from './Notification'
 import ReactMarkdown from 'react-markdown'
 import SyntaxHighlighter from 'react-syntax-highlighter'
-import { tags as Tags, difficulty as Difficulty, status as Status } from '../Additional'
+import { difficulty as Difficulty, status as Status } from '../Additional'
 // Atom one light
 import { atomOneDark, atomOneLight } from 'react-syntax-highlighter/dist/esm/styles/hljs'
 import { AiOutlineLink } from 'react-icons/ai'
 import { SiCodingninjas, SiGeeksforgeeks, SiLeetcode } from 'react-icons/si'
-import { Add, Delete, Edit, PlusOne } from '@mui/icons-material'
+import { Add, Delete, Edit} from '@mui/icons-material'
 import { Editor } from '@monaco-editor/react'
 
 const ViewById = () => {

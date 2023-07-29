@@ -1,7 +1,7 @@
 import { Editor } from '@monaco-editor/react'
-import { ChangeCircle, PlayCircle, RunCircle } from '@mui/icons-material';
-import { Button, ButtonGroup, MenuItem, Stack, TextField, Typography } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import { ChangeCircle, PlayCircle } from '@mui/icons-material';
+import { Button, ButtonGroup, MenuItem, Stack, TextField } from '@mui/material'
+import { useEffect, useState } from 'react'
 import axios from 'axios';
 import Notification from './Notification';
 
@@ -60,7 +60,7 @@ const Compiler = () => {
             setFiles(newFiles);
         }
         
-    }, [language]);
+    }, [language, files])
 
     const handleRun = async () => {
         setProcessing(true);

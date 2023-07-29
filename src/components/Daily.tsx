@@ -1,4 +1,4 @@
-import { Box, Stack, Typography } from '@mui/material'
+import { Box, Button, Stack, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import useAuth from '../hooks/useAuth';
 import { DailyTask } from '../Types';
@@ -28,9 +28,11 @@ const Daily = () => {
         }
 
         getTasks()
-    }, [date])
+    }, [date, user])
 
-
+    const handleClick = () => {
+        setDate('10/10/2021')
+    }
 
     return (
         <Stack direction="row" justifyContent="center" spacing={5} alignItems="center" width={'100%'} minHeight={'90vh'} >
@@ -42,7 +44,18 @@ const Daily = () => {
                 <Typography variant="h4" color="primary.main" >are here.</Typography>
             </Box>
             <Box>
-
+                <Button onClick={handleClick}>Temp</Button>
+                {
+                    tasks.map((task, index) => {
+                        return (
+                            <Box key={index} >
+                                <Typography variant="h4" color="primary.main" >{task.status}</Typography>
+                                <Typography variant="h4" color="primary.main" >{task.problems[0].title}</Typography>
+                            </Box>
+                        )
+                    }
+                    )
+                }
             </Box>
         </Stack>
     )
