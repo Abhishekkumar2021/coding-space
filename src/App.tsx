@@ -41,7 +41,6 @@ function App() {
 
           {/* Daily task */}
           <Route path = "/daily" element = {<Daily />} />
-
         </Route>
       </Routes>
     </Box>

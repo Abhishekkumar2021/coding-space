@@ -11,8 +11,7 @@ type Problem = {
 }
 
 type DailyTask = {
-    status: string;             // status of the task
-    problems: Problem[];        // problems of the task
+    problems: string[];        // contains title of the problems
 }
 
 export type { Problem, DailyTask };

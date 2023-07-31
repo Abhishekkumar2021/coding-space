@@ -67,7 +67,6 @@ const Problems = () => {
       })
       setProblems(problems)
       setOptions(options)
-      console.log(problems)
     }
     fetchProblems()
   }, [user, difficulty, status, tags, search])
