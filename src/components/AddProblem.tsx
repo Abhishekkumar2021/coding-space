@@ -1,4 +1,4 @@
-import { Box, Button, MenuItem, Stack, TextField } from '@mui/material'
+import { Box, Button, MenuItem, Stack, TextField, Typography } from '@mui/material'
 import { useState } from 'react'
 import { tags as Tags, difficulty as Difficulty, status as Status } from '../Additional'
 import { Add } from '@mui/icons-material'
@@ -53,24 +53,13 @@ const AddProblem = () => {
             typeof value === 'string' ? value.split(',') : value,
         )
     }
-    const handleDescription = (value: any) => {
-        setDescription(value)
-    }
-
-    const handleCode = (value: any) => {
-        setCode(value)
-    }
-
-    const handleNotes = (value: any) => {
-        setNotes(value)
-    }
 
     const handleSubmit = async () => {
         // Remove comments from markdown
         const regex = /<!--[\s\S]*?-->/g  // Regex to match comments in markdown 
         const newDescription = description.replace(regex, '')
         const newNotes = notes.replace(regex, '')
-        if((links === null || links.length === 0) || newDescription === ''){
+        if((links === null || links.length === 0) && newDescription === ''){
             setError('Please provide either description or links');
             setErrorOpen(true);
             return;
@@ -137,12 +126,12 @@ const AddProblem = () => {
                 />
 
                 {/* Description */}
+                <Typography variant='h6' >Description</Typography>
                 <Editor 
                     height={300}
                     defaultLanguage="markdown"
-                    defaultValue="<!-- Please enter description here in markdown format...-->"
                     value={description}
-                    onChange={handleDescription}
+                    onChange={(value) => setDescription(value as string || '')}
                     options={{
                         fontSize: 14,
                         minimap: {
@@ -216,12 +205,12 @@ const AddProblem = () => {
                 />
 
                 {/* Code */}
+                <Typography variant='h6' >Code</Typography>
                 <Editor 
                     height={300}
                     defaultLanguage="cpp"
-                    defaultValue="// Start coding here..."
                     value={code}
-                    onChange={handleCode}
+                    onChange={(value) => setCode(value as string || '')}
                     options={{
                         fontSize: 14,
                         minimap: {
@@ -233,12 +222,12 @@ const AddProblem = () => {
                 />
 
                 {/* Notes */}
+                <Typography variant='h6' >Notes</Typography>
                 <Editor 
                     height={300}
                     defaultLanguage="markdown"
-                    defaultValue="<!-- Please enter notes here in markdown format...  -->"
                     value={notes}
-                    onChange={handleNotes}
+                    onChange={(value) => setNotes(value as string || '')}
                     options={{
                         fontSize: 14,
                         minimap: {
