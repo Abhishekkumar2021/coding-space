@@ -100,7 +100,8 @@ const Library = () => {
         const linksSnapshot = await getDocs(linksCollection)
         const linkList: any = []
         linksSnapshot.forEach((doc) => {
-          linkList.push({ title, link , id: doc.id})
+          const data = doc.data()
+          linkList.push({ id: doc.id, title: data.title, link: data.link })
         })
         setLinks(linkList)
       }
@@ -177,7 +178,7 @@ const Library = () => {
         const linksList: any = []
         linksSnapshot.forEach((doc) => {
           const data = doc.data()
-          linksList.push({ id: doc.id, ...data })
+          linksList.push({ id: doc.id, title: data.title, link: data.link })
         })
         setLinks(linksList)
       }
