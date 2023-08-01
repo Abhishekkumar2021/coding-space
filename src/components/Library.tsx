@@ -174,11 +174,12 @@ const Library = () => {
         const userRef = doc(db, `users/${user?.uid}`)
         const linksCollection = collection(userRef, 'links')
         const linksSnapshot = await getDocs(linksCollection)
-        const links: any = []
+        const linksList: any = []
         linksSnapshot.forEach((doc) => {
-          links.push({ title, link , id: doc.id})
+          const data = doc.data()
+          linksList.push({ id: doc.id, ...data })
         })
-        setLinks(links)
+        setLinks(linksList)
       }
       catch (err: any) {
         setError(err.message || 'Something went wrong')
@@ -272,7 +273,7 @@ const Library = () => {
       setProcessing(false)
     }
     getData()
-  }, [user, link, title])
+  }, [user])
 
   const handleCopy = (url: string) => {
     navigator.clipboard.writeText(url)
