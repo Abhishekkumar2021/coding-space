@@ -4,7 +4,7 @@ import { BiCodeCurly } from 'react-icons/bi'
 import useAuth from '../hooks/useAuth'
 import { useNavigate } from 'react-router-dom'
 import {Link } from 'react-router-dom'
-import { AccountCircle, Logout } from '@mui/icons-material'
+import { AccountCircle, LibraryAdd, Logout } from '@mui/icons-material'
 import { FaClipboardList } from 'react-icons/fa'
 import { SiCompilerexplorer } from 'react-icons/si'
 import {MdOutlineTaskAlt} from 'react-icons/md'
@@ -64,6 +64,11 @@ const Navbar = () => {
         // Redirect to compiler
         handleClose();
         navigate('/compiler');
+    }
+
+    const handleLibrary = () =>{
+        handleClose();
+        navigate('/library');
     }
 
     return (
@@ -131,6 +136,17 @@ const Navbar = () => {
                                     </Icon>
                                 </IconButton>
                                 <Typography variant="body1" >Daily Task</Typography>
+                            </Stack>
+                        </MenuItem> 
+                        <MenuItem onClick={handleLibrary}>
+                            {/* Icon */}
+                            <Stack direction="row" alignItems="center" spacing={1} >
+                                <IconButton>
+                                    <Icon>
+                                        <LibraryAdd />
+                                    </Icon>
+                                </IconButton>
+                                <Typography variant="body1" >Your Library</Typography>
                             </Stack>
                         </MenuItem> 
                         <MenuItem onClick={handleCompiler}>

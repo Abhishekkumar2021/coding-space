@@ -39,27 +39,12 @@ const Compiler = () => {
         'javascript'
     ]
     useEffect(() => {
+        if(files[0].language === language) return;
         const newFiles = [...files];
         newFiles[0].language = language;
-
-        if(newFiles[0].value){
-            // Copy previous code to clipboard
-            navigator.clipboard.writeText(newFiles[0].value);
-
-            // Remove the code from the editor
-            newFiles[0].value = '';
-
-            // Remove previous output
-            newFiles[2].value = '';
-
-            setSuccess('Language changed and current code copied to clipboard');
-            setSuccessOpen(true);
-            setFiles(newFiles);
-        }else{
-            setSuccess('Language changed');
-            setFiles(newFiles);
-        }
-        
+        setSuccess('Language changed');
+        setFiles(newFiles);
+        setSuccessOpen(true);
     }, [language, files])
 
     const handleRun = async () => {

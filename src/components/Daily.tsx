@@ -90,7 +90,7 @@ const Daily = () => {
         fetchProblems()
         getTasks()
 
-    }, [user, taskProblems])
+    }, [user, taskProblems, problems])
 
     const handleClick = async () => {
         // Check if already present

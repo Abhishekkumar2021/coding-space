@@ -14,6 +14,7 @@ import AddProblem from './components/AddProblem';
 import ViewById from './components/ViewById';
 import Compiler from './components/Compiler';
 import Daily from './components/Daily';
+import Library from './components/Library';
 
 function App() {
   return (
@@ -41,6 +42,9 @@ function App() {
 
           {/* Daily task */}
           <Route path = "/daily" element = {<Daily />} />
+
+          {/* Library */}
+          <Route path = "/library" element = {<Library />} />
         </Route>
       </Routes>
     </Box>
