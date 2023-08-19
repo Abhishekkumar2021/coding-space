@@ -91,7 +91,7 @@ const Compiler = () => {
     }
 
     return (
-        <Stack direction="column" width={'100%'} alignItems="center" justifyContent="center" sx={{ minHeight: '100vh' }} >
+        <Stack direction="column" width={'100%'}  >
             {/* Error */}
             <Notification message={error} type="error" open={errorOpen} setOpen={setErrorOpen} />
             {/* Success */}
@@ -135,7 +135,8 @@ const Compiler = () => {
 
             </Stack>
             <Editor
-                height="85vh"
+                className='editor'
+                height="76vh"
                 defaultLanguage='cpp'
                 language={files[activeFileIndex].language}
                 value={files[activeFileIndex].value}
@@ -153,7 +154,6 @@ const Compiler = () => {
                     },
                     fontFamily: "'Roboto Mono', monospace",
                 }}
-                className='editor'
             />
         </Stack>
     )
