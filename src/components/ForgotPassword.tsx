@@ -47,8 +47,7 @@ const ForgotPassword = () => {
             {/* Success */}
             <Notification message={success} type="success" open={successOpen} setOpen={setSuccessOpen} />
 
-            <Stack spacing={3} maxWidth="400px" width="100%" padding={4} component="form" sx={{ boxShadow: 3, borderRadius: 2, background: 'white' }} >
-
+            <Stack spacing={3} maxWidth="500px" width="100%" padding={4} component="form">
                 <Typography variant="h5" align="left">
                     Enter your email address below and we'll send you a link to reset your password.
                 </Typography>

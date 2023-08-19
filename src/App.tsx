@@ -18,7 +18,7 @@ import Library from './components/Library';
 
 function App() {
   return (
-    <Box sx={{ width: '100%', minHeight: '100vh', backgroundColor: '#fcfcfc' }}>
+    <Box sx={{ width: '100%', minHeight: '100vh'}}>
       <Routes>
         <Route path = "/login" element = {<Login />} />
         <Route path = "/signup" element = {<Signup />} />

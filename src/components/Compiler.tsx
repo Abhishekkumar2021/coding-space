@@ -4,6 +4,7 @@ import { Button, ButtonGroup, MenuItem, Stack, TextField } from '@mui/material'
 import { useEffect, useState } from 'react'
 import axios from 'axios';
 import Notification from './Notification';
+import useColorMode from '../hooks/useColorMode';
 
 const Compiler = () => {
     const [language, setLanguage] = useState('cpp');
@@ -30,7 +31,8 @@ const Compiler = () => {
     const [errorOpen, setErrorOpen] = useState(false);
     const [successOpen, setSuccessOpen] = useState(false);
     const [activeFileIndex, setActiveFileIndex] = useState(0);
-    const [theme, setTheme] = useState('light');
+    const {colorMode} = useColorMode();
+    const [theme, setTheme] = useState(colorMode);
     const languageOptions = [
         'cpp',
         'c',
@@ -89,18 +91,18 @@ const Compiler = () => {
     }
 
     return (
-        <Stack direction="column" width={'100%'} >
+        <Stack direction="column" width={'100%'} alignItems="center" justifyContent="center" sx={{ minHeight: '100vh' }} >
             {/* Error */}
             <Notification message={error} type="error" open={errorOpen} setOpen={setErrorOpen} />
             {/* Success */}
             <Notification message={success} type="success" open={successOpen} setOpen={setSuccessOpen} />
-            <Stack direction={'row'} alignItems="center" spacing={2} padding={2} justifyContent={'space-between'} >
+            <Stack width="100%" direction={'row'} alignItems="center" spacing={2} padding={2} justifyContent={'space-between'} >
                 <ButtonGroup disableElevation variant="outlined" aria-label="Buttons" size='large' >
                     {files.map((file, index) => (
                         <Button key={index} onClick={() => setActiveFileIndex(index)}
                             sx={{
-                                backgroundColor: activeFileIndex === index ? '#e0e0e0' : '#fff',
-                                color: 'black',
+                                backgroundColor: activeFileIndex === index ? colorMode === 'light' ? '#e0e0e0' : '#333333' : 'transparent',
+                                color: colorMode === 'light' ? '#333333' : '#e0e0e0',
                                 padding: '0.5rem 1rem',
                                 borderRadius: '0.5rem',
                             }}
@@ -133,7 +135,7 @@ const Compiler = () => {
 
             </Stack>
             <Editor
-                height={610}
+                height="85vh"
                 defaultLanguage='cpp'
                 language={files[activeFileIndex].language}
                 value={files[activeFileIndex].value}

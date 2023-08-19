@@ -8,8 +8,9 @@ import { db } from '../config/firebase'
 import { collection, doc, getDocs, orderBy, query, where } from 'firebase/firestore'
 import { useNavigate } from 'react-router-dom'
 import { SiLeetcode, SiCodingninjas, SiGeeksforgeeks } from 'react-icons/si'
-import {AiOutlineLink} from 'react-icons/ai'
+import { AiOutlineLink } from 'react-icons/ai'
 import { Link } from 'react-router-dom'
+import useColorMode from '../hooks/useColorMode'
 
 const Problems = () => {
   const { user } = useAuth()
@@ -29,7 +30,7 @@ const Problems = () => {
       if (search) {
         conditions.push(where('title', '==', search))
       }
-      else{
+      else {
         if (difficulty !== 'All') {
           conditions.push(where('difficulty', '==', difficulty))
         }
@@ -102,24 +103,24 @@ const Problems = () => {
         </IconButton>
       )
     }
-    if(link.includes('codingninjas')){
+    if (link.includes('codingninjas')) {
       return (
         <IconButton key={idx} href={link} target='_blank' rel='noreferrer'>
           <SiCodingninjas />
         </IconButton>
       )
     }
-    if(link.includes('interviewbit')){
+    if (link.includes('interviewbit')) {
       return (
         <IconButton key={idx} href={link} target='_blank' rel='noreferrer'>
           <img src="https://img.icons8.com/?size=1x&id=BaooGqbWDceE&format=png" alt="interviewbit" width={40} height={40} />
         </IconButton>
       )
     }
-    if(link.includes('geeksforgeeks')){
+    if (link.includes('geeksforgeeks')) {
       return (
         <IconButton key={idx} href={link} target='_blank' rel='noreferrer'>
-          <SiGeeksforgeeks/>
+          <SiGeeksforgeeks />
         </IconButton>
       )
     }
@@ -130,9 +131,10 @@ const Problems = () => {
       </IconButton>
     )
   }
+  const { colorMode } = useColorMode()
   return (
-    <Box sx={{ width: '100%'}}>
-      <Stack direction='row' spacing={2} sx={{ width: '100%', position: 'sticky', top: '4rem', zIndex: 1200, background:'white', padding: 3 }} justifyContent={'space-between'}>
+    <Box sx={{ width: '100%' }}>
+      <Stack direction='row' spacing={2} sx={{ width: '100%', position: 'sticky', top: '4rem', zIndex: 1200, padding: 3 }} justifyContent={'space-between'}>
         <TextField
           id='difficulty'
           label='Difficulty'
@@ -191,58 +193,58 @@ const Problems = () => {
           <Add />
         </Fab>
       </Tooltip>
-        <TableContainer sx={{ width: '100%', padding: 2 }} >
-          <Table sx={{ width: '100%' }}>
-            <TableHead >
-              <TableRow>
+      <TableContainer sx={{ width: '100%', padding: 2 }} >
+        <Table sx={{ width: '100%' }}>
+          <TableHead >
+            <TableRow>
               <TableCell width={100} align='center'>Status</TableCell>
               <TableCell width={450} align='center'>Title</TableCell>
               <TableCell width={100} align='center'>Difficulty</TableCell>
               <TableCell width={500} align='center'>Tags</TableCell>
               <TableCell width={200} align='center'>URLs</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody >
+            </TableRow>
+          </TableHead>
+          <TableBody >
             {problems.map((problem, index) => (
               <TableRow key={index}>
                 {
                   problem.status === 'Solved' ?
-                  <TableCell sx={{backgroundColor:'success.light', color:'white'}}>{problem.status}</TableCell>
-                  : problem.status === 'To Do' ?
-                  <TableCell sx={{backgroundColor:'error.light', color:'white'}}>{problem.status}</TableCell>
-                  : <TableCell sx={{backgroundColor:'warning.light', color:'white'}}>{problem.status}</TableCell>
+                    <TableCell sx={{ backgroundColor: 'success.light', color: 'white' }}>{problem.status}</TableCell>
+                    : problem.status === 'To Do' ?
+                      <TableCell sx={{ backgroundColor: 'error.light', color: 'white' }}>{problem.status}</TableCell>
+                      : <TableCell sx={{ backgroundColor: 'warning.light', color: 'white' }}>{problem.status}</TableCell>
                 }
                 <TableCell>
-                  <Link to={`/problems/${problem.id}`} style={{textDecoration: 'none', color: 'black'}}>
+                  <Link to={`/problems/${problem.id}`} style={{ textDecoration: 'none', color: colorMode === 'light' ? 'black' : 'white' }}>
                     {problem.title}
                   </Link>
                 </TableCell>
                 {
                   problem.difficulty === 'Easy' ?
-                    <TableCell sx={{backgroundColor:'success.light', color:'white'}}>{problem.difficulty}</TableCell>
+                    <TableCell sx={{ backgroundColor: 'success.light', color: 'white' }}>{problem.difficulty}</TableCell>
                     : problem.difficulty === 'Medium' ?
-                    <TableCell sx={{backgroundColor:'warning.light', color:'white'}}>{problem.difficulty}</TableCell>
-                    : <TableCell sx={{backgroundColor:'error.light', color:'white'}}>{problem.difficulty}</TableCell>
+                      <TableCell sx={{ backgroundColor: 'warning.light', color: 'white' }}>{problem.difficulty}</TableCell>
+                      : <TableCell sx={{ backgroundColor: 'error.light', color: 'white' }}>{problem.difficulty}</TableCell>
                 }
                 <TableCell>{
-                  <Stack direction='row' spacing={1} justifyContent={'center'} paddingLeft={5} width={500} sx={{overflowX: 'auto'}}>
+                  <Stack direction='row' spacing={1} justifyContent={'center'} paddingLeft={5} width={500} sx={{ overflowX: 'auto' }}>
                     {problem.tags.map((tag, index) => (
                       <Chip key={index} label={tag} onClick={() => setTags([tag])} />
                     ))}
                   </Stack>
                 }</TableCell>
                 <TableCell>
-                  <Stack direction='row' spacing={1}  justifyContent={'center'}  sx={{overflowX: 'auto'}}>
+                  <Stack direction='row' spacing={1} justifyContent={'center'} sx={{ overflowX: 'auto' }}>
                     {problem.links.map((link, index) => (
                       getIcon(link, index)
                     ))}
                   </Stack>
                 </TableCell>
-                </TableRow> 
+              </TableRow>
             ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+          </TableBody>
+        </Table>
+      </TableContainer>
     </Box>
   )
 }

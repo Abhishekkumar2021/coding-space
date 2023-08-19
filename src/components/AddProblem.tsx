@@ -8,6 +8,7 @@ import { addDoc, collection, doc, getDocs, query, where } from 'firebase/firesto
 import { db } from '../config/firebase'
 import { useNavigate } from 'react-router-dom'
 import { Editor } from '@monaco-editor/react'
+import useColorMode from '../hooks/useColorMode'
 
 const AddProblem = () => {
     const [title, setTitle] = useState('')
@@ -25,6 +26,7 @@ const AddProblem = () => {
 
     const {user} = useAuth();
     const navigate = useNavigate();
+    const {colorMode} = useColorMode();
 
     const handleDifficulty = (e: any) => {
         setDifficulty(e.target.value)
@@ -131,6 +133,7 @@ const AddProblem = () => {
                     height={300}
                     defaultLanguage="markdown"
                     value={description}
+                    theme={colorMode === 'dark' ? 'vs-dark' : 'light'}
                     onChange={(value) => setDescription(value as string || '')}
                     options={{
                         fontSize: 14,
@@ -210,6 +213,7 @@ const AddProblem = () => {
                     height={300}
                     defaultLanguage="cpp"
                     value={code}
+                    theme={colorMode === 'dark' ? 'vs-dark' : 'light'}
                     onChange={(value) => setCode(value as string || '')}
                     options={{
                         fontSize: 14,
@@ -227,6 +231,7 @@ const AddProblem = () => {
                     height={300}
                     defaultLanguage="markdown"
                     value={notes}
+                    theme={colorMode === 'dark' ? 'vs-dark' : 'light'}
                     onChange={(value) => setNotes(value as string || '')}
                     options={{
                         fontSize: 14,

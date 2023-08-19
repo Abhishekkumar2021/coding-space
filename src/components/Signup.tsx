@@ -1,4 +1,4 @@
-import { Stack, TextField, Button, Box, Typography, InputAdornment } from '@mui/material';
+import { Stack, useTheme, TextField, Button, Box, Typography, InputAdornment } from '@mui/material';
 import { FaGithub } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
 import LockIcon from '@mui/icons-material/Lock';
@@ -8,6 +8,7 @@ import useAuth from '../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 import Notification from './Notification';
 import { Link } from 'react-router-dom';
+import useColorMode from '../hooks/useColorMode';
 
 const Signup = () => {
     const {
@@ -120,13 +121,21 @@ const Signup = () => {
 
     };
 
+    const {colorMode} = useColorMode();
+    const theme = useTheme();
+
     return (
         <Box sx={{ width: '100%', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             {/* Error */}
             <Notification message={error} type="error" open={errorOpen} setOpen={setErrorOpen} />
             {/* Success */}
             <Notification message={success} type="success" open={successOpen} setOpen={setSuccessOpen} />
-            <Stack spacing={3} maxWidth="400px" width="100%" padding={4} component="form" sx={{ boxShadow: 3, borderRadius: 2, backgroundColor: 'white' }} >
+            <Stack spacing={3} maxWidth="400px" width="100%" padding={4} component="form"  sx={{
+                background: colorMode === 'light' ? theme.palette.background.paper : theme.palette.action.hover,
+                borderRadius: '10px',
+                boxShadow: 3,
+            
+            }} >
                 <Typography variant="h4" component="h1" gutterBottom>
                     Sign up
                 </Typography>
@@ -196,30 +205,26 @@ const Signup = () => {
 
                 <Typography variant="body2" color="text.secondary" align="center">
                     Already have an account?{' '}
-                    <Link to="/login" style={{ textDecoration: 'none' }} >
+                    <Link to="/login" style={{ textDecoration: 'none', color: theme.palette.primary.main }} >
                         Login
                     </Link>
                 </Typography>
                 <Stack direction="row" spacing={2} justifyContent="center" alignItems="center">
-                    <Box sx={{ width: '100%', height: '1px', backgroundColor: 'black' }} />
+                    <Box sx={{ width: '100%', height: '1px', backgroundColor: colorMode === 'light' ? 'black' : 'white' }} />
                     <Typography variant="body2" color="text.secondary" align="center">
                         Or
                     </Typography>
-                    <Box sx={{ width: '100%', height: '1px', backgroundColor: 'black' }} />
+                    <Box sx={{ width: '100%', height: '1px', backgroundColor: colorMode === 'light' ? 'black' : 'white' }} />
                 </Stack>
 
                 <Stack direction="row" spacing={2} justifyContent="center" alignItems="center">
                     <Button variant="outlined" startIcon={<FcGoogle />} sx={{
-                        flex: 1, color: 'black', borderColor: 'lightgray', '&:hover': {
-                            borderColor: 'gray'
-                        },
+                        flex: 1
                     }} onClick={handleGoogleSignup}>
                         Google
                     </Button>
                     <Button variant="outlined" startIcon={<FaGithub />} sx={{
-                        flex: 1, color: 'black', borderColor: 'lightgray', '&:hover': {
-                            borderColor: 'gray'
-                        },
+                        flex: 1
                     }} onClick={handleGithubSignup}>
                         GitHub
                     </Button> 

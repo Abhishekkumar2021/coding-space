@@ -7,7 +7,7 @@ const Profile = () => {
   const { user } = useAuth();
   return (
     <Box sx={{ width: '100%', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
-      <Stack spacing={2} maxWidth="400px" width="100%" padding={4} component="form" sx={{ boxShadow: 3, borderRadius: 2, background: 'white' }} >
+      <Stack spacing={2} maxWidth="400px" width="100%" padding={4} component="form"  >
         <Avatar alt="User" src={user?.photoURL} sx={{ width: '100px', height: '100px', margin: 'auto' }} />
         <Typography variant="h4" color="primary.main" textAlign='center' >{user?.displayName}</Typography>
         <Stack direction="row" alignItems="center" spacing={1} >

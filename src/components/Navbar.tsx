@@ -4,12 +4,14 @@ import { BiCodeCurly } from 'react-icons/bi'
 import useAuth from '../hooks/useAuth'
 import { useNavigate } from 'react-router-dom'
 import {Link } from 'react-router-dom'
-import { AccountCircle, LibraryAdd, Logout } from '@mui/icons-material'
+import { AccountCircle, DarkMode, LibraryAdd, LightMode, Logout } from '@mui/icons-material'
 import { FaClipboardList } from 'react-icons/fa'
 import { SiCompilerexplorer } from 'react-icons/si'
 import {MdOutlineTaskAlt} from 'react-icons/md'
+import useColorMode from '../hooks/useColorMode'
 
 const Navbar = () => {
+    const {colorMode, toggleColorMode} = useColorMode();
     const { user, logOut } = useAuth();
     const navigate = useNavigate();
     const getAvatar = () => {
@@ -72,7 +74,7 @@ const Navbar = () => {
     }
 
     return (
-        <AppBar sx={{ position: 'sticky', top: 0, left: 0, right: 0, zIndex: 1000, backgroundColor: 'white', color:'black' }} elevation={1} >
+        <AppBar sx={{ position: 'sticky', top: 0, left: 0, right: 0, zIndex: 1000}} >
             <Toolbar>
                 <IconButton
                     size="large"
@@ -89,6 +91,10 @@ const Navbar = () => {
                     </Link>
                 </Typography>
                 <Stack direction="row" spacing={2}>
+                    <IconButton onClick={toggleColorMode} color="inherit" aria-label="mode">
+                        {colorMode === 'light' ? <DarkMode/> : <LightMode/>}
+                    </IconButton>
+
                     {/* Open this menu on clicking on avatar */}
                     <Button
                         variant="contained"
@@ -98,7 +104,6 @@ const Navbar = () => {
                         aria-haspopup="true"
                         aria-expanded={open ? 'true' : undefined}
                         onClick={handleClick}
-                        color='inherit'
                         >
                         {user.displayName || user.email}
                     </Button>

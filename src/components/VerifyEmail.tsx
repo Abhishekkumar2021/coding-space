@@ -42,7 +42,7 @@ const VerifyEmail = () => {
             <Notification message={error} type="error" open={errorOpen} setOpen={setErrorOpen} />
             {/* Success */}
             <Notification message={success} type="success" open={successOpen} setOpen={setSuccessOpen} />
-            <Stack spacing={2} maxWidth="400px" width="100%" padding={4} component="form" sx={{ boxShadow: 3, borderRadius: 2, background: 'white' }} >
+            <Stack spacing={2} maxWidth="500px" width="100%" padding={4} component="form"  >
                 <Typography variant="h4" color="primary.main" >Verify Email</Typography>
                 <Typography variant="body1" color="text.secondary" >An email will be sent to you to verify your account with further instructions.</Typography>
                 <Stack spacing={2} direction="row" justifyContent="space-between" alignItems="center" >

@@ -14,11 +14,13 @@ import { AiOutlineLink } from 'react-icons/ai'
 import { SiCodingninjas, SiGeeksforgeeks, SiLeetcode } from 'react-icons/si'
 import { Add, Delete, Edit} from '@mui/icons-material'
 import { Editor } from '@monaco-editor/react'
+import useColorMode from '../hooks/useColorMode'
 
 const ViewById = () => {
   const [problem, setProblem] = useState<any>(null)
   const { id } = useParams()
-  const [mode, setMode] = useState<'light' | 'dark'>('light')
+  const {colorMode} = useColorMode();
+  const [mode, setMode] = useState<'light' | 'dark'>(colorMode);
   const navigate = useNavigate();
 
   const [error, setError] = useState<any>(null);
@@ -337,7 +339,7 @@ const ViewById = () => {
                 value={description}
                 onChange={(e) => setDescription(e)}
                 options={{
-                  fontSize: 14,
+                  fontSize: 13,
                   minimap: {
                     enabled: false
                   },
@@ -384,10 +386,9 @@ const ViewById = () => {
             <SyntaxHighlighter language='cpp' style={mode === 'light' ? atomOneLight : atomOneDark}
               wrapLongLines showLineNumbers customStyle={{
                 padding: '1rem',
-                fontSize: '1rem',
+                fontSize: '0.9rem',
                 lineHeight: '1.7',
                 borderRadius: '0.5rem',
-                border: '1px solid #eaeaea',
               }}>
               {problem.code}
             </SyntaxHighlighter>
