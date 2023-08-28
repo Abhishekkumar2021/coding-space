@@ -15,6 +15,7 @@ import ViewById from './components/ViewById';
 import Compiler from './components/Compiler';
 import Daily from './components/Daily';
 import Library from './components/Library';
+import GoBack from './components/GoBack';
 
 function App() {
   return (
@@ -45,6 +46,9 @@ function App() {
 
           {/* Library */}
           <Route path = "/library" element = {<Library />} />
+
+          {/* Any other path */}
+          <Route path = "*" element = {<GoBack />} />
         </Route>
       </Routes>
     </Box>
