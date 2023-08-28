@@ -4,8 +4,8 @@ import { FcGoogle } from 'react-icons/fc';
 import LockIcon from '@mui/icons-material/Lock';
 import EmailIcon from '@mui/icons-material/Email';
 import useAuth from '../hooks/useAuth';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import Notification from './Notification';
 import { Link } from 'react-router-dom';
 import useColorMode from '../hooks/useColorMode';
@@ -13,13 +13,11 @@ import useColorMode from '../hooks/useColorMode';
 
 const Login = () => {
     const { 
-        user,
         signIn,
         googleSignIn,
         githubSignIn,
     } = useAuth();
     const navigate = useNavigate();
-    const location = useLocation()
 
     // state variables
     const [email, setEmail] = useState('');
@@ -114,14 +112,6 @@ const Login = () => {
         setEmail('');
         setPassword('');
     };
-
-    // Redirect to home page if user is already logged in
-    useEffect(() => {
-        if(user){
-            navigate(location.state || '/')
-        }
-    }
-    , [user, navigate, location.state]);
 
     const {colorMode} = useColorMode();
     const theme = useTheme();
